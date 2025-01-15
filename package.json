@@ -7,8 +7,15 @@
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "private": true,
-  "workspaces": ["apps/*", "packages/*"],
-  "keywords": ["serverless", "monorepo", "template"],
+  "workspaces": [
+    "apps/*",
+    "packages/*"
+  ],
+  "keywords": [
+    "serverless",
+    "monorepo",
+    "template"
+  ],
   "author": "thedashpuntsag",
   "license": "ISC",
   "engines": {

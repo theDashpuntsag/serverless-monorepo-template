@@ -1,0 +1,22 @@
+{
+  "name": "@custom-repo/global-libs",
+  "version": "0.0.0",
+  "private": true,
+  "peerDependencies": {
+    "@aws-sdk/client-lambda": "^3.693.0",
+    "@aws-sdk/client-ssm": "^3.693.0",
+    "@middy/core": "^4.1.0",
+    "@middy/http-json-body-parser": "^4.1.0",
+    "axios": "^1.7.7",
+    "zod": "^3.24.1"
+  },
+  "devDependencies": {
+    "@custom-repo/global-types": "workspace:*",
+    "@custom-repo/typescript-config": "workspace:*",
+    "@types/aws-lambda": "^8.10.145",
+    "@types/jsonwebtoken": "^9.0.7"
+  },
+  "dependencies": {
+    "winston": "^3.17.0"
+  }
+}
