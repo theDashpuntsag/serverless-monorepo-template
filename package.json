@@ -1,0 +1,23 @@
+{
+  "name": "serverless-monorepo-template",
+  "version": "1.0.0",
+  "description": "",
+  "main": "serverless.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "private": true,
+  "workspaces": ["apps/*", "packages/*"],
+  "keywords": ["serverless", "monorepo", "template"],
+  "author": "thedashpuntsag",
+  "license": "ISC",
+  "engines": {
+    "node": ">=18"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "prettier": "^3.4.2",
+    "prettier-plugin-tailwindcss": "^0.5.14",
+    "turbo": "^2.3.3"
+  }
+}
