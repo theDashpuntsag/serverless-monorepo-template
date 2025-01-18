@@ -1,6 +1,5 @@
-import { updateExampleItemDirectly } from '@/repository/example-repository';
-import type { ExampleItem } from '@/types';
+import { PrtExampleItem, updateExampleItemDirectly } from '@/repository/example-repository';
 
-export async function updateExampleItem(item: ExampleItem): Promise<ExampleItem> {
-  return (await updateExampleItemDirectly(item)) as ExampleItem;
+export async function updateExampleItem(item: PrtExampleItem): Promise<PrtExampleItem> {
+  return await updateExampleItemDirectly(item);
 }
