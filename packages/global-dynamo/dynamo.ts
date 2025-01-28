@@ -5,14 +5,14 @@ import type {
   CustomQueryCommandInput,
   CustomQueryCommandOutput,
   CustomUpdateItemInput
-} from './dynamo.types';
+} from './types';
 
 import { DescribeTableCommand, DynamoDBClient } from '@aws-sdk/client-dynamodb';
 import { GetCommand, UpdateCommand, PutCommand, QueryCommand } from '@aws-sdk/lib-dynamodb';
 import { DynamoDBDocumentClient } from '@aws-sdk/lib-dynamodb';
 
 import { CustomError, logger } from '@custom-repo/global-libs';
-import * as build from './command';
+import * as build from './commands';
 
 // Initialize DynamoDB client
 const dynamoDb = new DynamoDBClient({ region: 'ap-southeast-1' });

@@ -1,5 +1,5 @@
 import type { PutCommandInput } from '@aws-sdk/lib-dynamodb';
-import type { CustomPutCommandInput } from '../dynamo.types';
+import type { CustomPutCommandInput } from '../types/dynamo.types';
 import { extractExpAttributeNamesFromString, replaceReservedKeywordsFromProjection } from '../utils';
 
 /**
@@ -84,7 +84,7 @@ export function buildPutCommandInput<T>(input: CustomPutCommandInput<T>): PutCom
     expressionAttributeValues: providedValues,
     returnValues: ReturnValues = 'NONE',
     returnConsumedCapacity: ReturnConsumedCapacity,
-    returnItemCollectionMetrics: ReturnItemCollectionMetrics,
+    returnItemCollectionMetrics: ReturnItemCollectionMetrics
   } = input;
 
   const Item = item as Record<string, unknown>;
@@ -95,7 +95,7 @@ export function buildPutCommandInput<T>(input: CustomPutCommandInput<T>): PutCom
     ConditionExpression,
     ReturnValues,
     ReturnConsumedCapacity,
-    ReturnItemCollectionMetrics,
+    ReturnItemCollectionMetrics
   };
 
   // Generate `ExpressionAttributeNames` if `ConditionExpression` exists

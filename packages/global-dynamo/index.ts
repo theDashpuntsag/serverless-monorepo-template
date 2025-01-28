@@ -1,4 +1,4 @@
-export * from './command';
+export * from './commands';
+export * from './types';
 export * from './utils';
 export * from './dynamo';
-export * from './dynamo.types';

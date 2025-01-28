@@ -2,13 +2,15 @@
   "name": "@custom-repo/dynamo",
   "version": "0.0.0",
   "private": true,
-  "peerDependencies": {
+  "dependencies": {
     "@aws-sdk/client-dynamodb": "^3.693.0",
-    "@aws-sdk/lib-dynamodb": "^3.693.0",
-    "zod": "^3.24.1"
+    "@aws-sdk/lib-dynamodb": "^3.693.0"
   },
   "devDependencies": {
     "@custom-repo/typescript-config": "workspace:*",
     "@custom-repo/global-libs": "workspace:*"
+  },
+  "peerDependencies": {
+    "zod": "^3.24.1"
   }
 }
