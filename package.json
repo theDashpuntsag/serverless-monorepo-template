@@ -4,9 +4,12 @@
   "description": "",
   "main": "serverless.ts",
   "scripts": {
+    "build": "turbo run build",
+    "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky"
   },
+  "packageManager": "pnpm@10.11.1",
   "private": true,
   "workspaces": [
     "stacks/*",

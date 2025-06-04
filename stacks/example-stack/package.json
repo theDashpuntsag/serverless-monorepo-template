@@ -6,11 +6,12 @@
   "private": true,
   "scripts": {
     "offline": "serverless offline start --reloadHandler",
+    "lint": "eslint .",
+    "build": "tsc --build",
     "format": "prettier --write \"src/**/*.ts\"",
     "format:check": "prettier --check \"src/**/*.ts\"",
-    "prod-d": "sls deploy --stage prod",
-    "dev-d": "sls deploy --stage dev",
-    "lint": "eslint \"src/**/*.ts\""
+    "deploy:prod": "sls deploy --stage prod",
+    "deploy:dev": "sls deploy --stage dev"
   },
   "repository": {
     "type": "git",
@@ -20,12 +21,14 @@
     "serverless",
     "template"
   ],
+  "env": {
+    "node": true
+  },
   "author": "thedashpuntsag",
   "license": "ISC",
   "bugs": {
     "url": "https://github.com/theDashpuntsag/serverless-ts-template/issues"
   },
-  "packageManager": "pnpm@9.15.0",
   "homepage": "https://github.com/theDashpuntsag/serverless-ts-template#readme",
   "dependencies": {
     "@custom-repo/dynamo": "workspace:*",
@@ -42,7 +45,7 @@
     "@serverless/eslint-config": "^5.1.0",
     "@serverless/typescript": "^3.38.0",
     "@types/aws-lambda": "^8.10.147",
-    "@types/node": "^22.10.6",
+    "@types/node": "^22.15.21",
     "eslint": "^9.18.0",
     "globals": "^15.14.0",
     "prettier": "^3.4.2",

@@ -1,6 +1,6 @@
 import type { PutCommandInput } from '@aws-sdk/lib-dynamodb';
-import type { CustomPutCommandInput } from '../types/dynamo.types';
 import { extractExpAttributeNamesFromString, replaceReservedKeywordsFromProjection } from '../utils';
+import { CustomPutCommandInput } from '../types';
 
 /**
  * Constructs a valid `PutCommandInput` object for DynamoDB operations.

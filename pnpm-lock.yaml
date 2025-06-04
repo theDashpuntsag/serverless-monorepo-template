@@ -142,7 +142,7 @@ importers:
         specifier: ^8.10.147
         version: 8.10.149
       '@types/node':
-        specifier: ^22.10.6
+        specifier: ^22.15.21
         version: 22.15.21
       eslint:
         specifier: ^9.18.0

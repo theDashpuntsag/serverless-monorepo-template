@@ -1,6 +1,6 @@
 import { GetCommandInput } from '@aws-sdk/lib-dynamodb';
-import { CustomGetCommandInput } from '../types/dynamo.types';
 import { extractExpAttributeNamesFromString, replaceReservedKeywordsFromProjection } from '../utils';
+import { CustomGetCommandInput } from '../types';
 
 /**
  * Constructs a `GetCommandInput` object for DynamoDB based on the provided custom input.

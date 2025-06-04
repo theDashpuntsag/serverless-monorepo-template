@@ -22,8 +22,6 @@
     "declaration": false,
     "strictNullChecks": true
   },
-  "include": ["./src"],
-  "exclude": ["./dist"],
   "ts-node": {
     "require": ["tsconfig-paths/register"]
   }

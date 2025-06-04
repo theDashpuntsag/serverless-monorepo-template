@@ -1,11 +1,11 @@
 import { QueryCommandInput } from '@aws-sdk/lib-dynamodb';
-import { CustomQueryCommandInput } from '../types/dynamo.types';
 import {
   extractExpAttributeNamesFromString,
   generateKeyConditionExpression,
   parseDynamoKeyValue,
   replaceReservedKeywordsFromProjection
 } from '../utils';
+import { CustomQueryCommandInput } from '../types';
 
 /**
  * Constructs a `QueryCommandInput` object for DynamoDB queries.
