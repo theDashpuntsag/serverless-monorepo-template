@@ -5,9 +5,10 @@ import {
   getExampleTableDescription,
   getExampleItemById as getExampleItemByIdService,
   getExampleItemsByQuery as getExampleItemsByQueryService,
-  createExampleItem
+  createExampleItem,
+  updateExampleItem
 } from '@/services/example';
-import { CustomError, extractMetadata, handleApiFuncError, middyfy } from '@custom-repo/global-libs';
+import { CustomError, extractMetadata, formatApiResponse, handleApiFuncError, middyfy } from '@custom-repo/global-libs';
 import { QueryRequestSchema } from '@custom-repo/dynamo';
 
 const getExampleTableDescFunc: ApiFunc<null> = async (): Promise<ApiFuncRes> => {
@@ -22,7 +23,10 @@ const getExampleItemByIdFunc: ApiFunc<null> = async (event): Promise<ApiFuncRes>
   try {
     if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
     const { id } = event.pathParameters;
-    return await getExampleItemByIdService(id);
+
+    const response = await getExampleItemByIdService(id);
+
+    return formatApiResponse(response);
   } catch (error: unknown) {
     return handleApiFuncError(error);
   }
@@ -39,7 +43,9 @@ const getExampleItemsByQueryFunc: ApiFunc<null> = async (event): Promise<ApiFunc
       throw new CustomError(`Query params are missing!, ${validationErrors}`);
     }
 
-    return await getExampleItemsByQueryService(parseResult.data);
+    const response = await getExampleItemsByQueryService(parseResult.data);
+
+    return formatApiResponse(response);
   } catch (error: unknown) {
     return handleApiFuncError(error);
   }
@@ -49,7 +55,7 @@ const postCreateExampleItemFunc: ApiFunc<object> = async (event): Promise<ApiFun
   try {
     const { body } = extractMetadata(event);
     if (!body) throw new CustomError('Request body is missing');
-    return await createExampleItem(body as object);
+    return formatApiResponse(await createExampleItem(body as object));
   } catch (error: unknown) {
     return handleApiFuncError(error);
   }
@@ -59,7 +65,7 @@ const putUpdateExampleItemFunc: ApiFunc<object> = async (event): Promise<ApiFunc
   try {
     const { body } = extractMetadata(event);
     if (!body) throw new CustomError('Request body is missing');
-    return await createExampleItem(body as object);
+    return formatApiResponse(await updateExampleItem(body as object));
   } catch (error: unknown) {
     return handleApiFuncError(error);
   }

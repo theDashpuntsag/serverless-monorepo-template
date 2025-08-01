@@ -21,7 +21,7 @@ importers:
         specifier: ^2.5.3
         version: 2.5.3
 
-  packages/global-dynamo:
+  packages/dynamo:
     dependencies:
       '@aws-sdk/client-dynamodb':
         specifier: ^3.693.0
@@ -106,7 +106,7 @@ importers:
     dependencies:
       '@custom-repo/dynamo':
         specifier: workspace:*
-        version: link:../../packages/global-dynamo
+        version: link:../../packages/dynamo
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
@@ -240,6 +240,7 @@ packages:
   '@aws-sdk/lib-dynamodb@3.817.0':
     resolution: {integrity: sha512-BHMhLm0OCgplwqxj2j7nGUehMDvTV6i6EE5IZe8FE2XcnCSoh/Pp2xQfVxM2yz33EQLKi5S3m5m2Q7PJvx7cHA==}
     engines: {node: '>=18.0.0'}
+    deprecated: Please upgrade to @aws-sdk/lib-dynamodb@3.850.0 to support Command reuse https://github.com/aws/aws-sdk-js-v3/issues/7217.
     peerDependencies:
       '@aws-sdk/client-dynamodb': ^3.817.0
 

@@ -12,7 +12,7 @@ export async function getExampleTableDescription(): Promise<DescribeTableCommand
   return await getTableDescription(TABLE_NAME);
 }
 
-export async function getExampleItemById(id: string, projectionExp?: string): Promise<object | undefined> {
+export async function getExampleItemById(id: string, projectionExp?: string): Promise<Partial<object> | undefined> {
   const params = {
     tableName: TABLE_NAME,
     key: { id },

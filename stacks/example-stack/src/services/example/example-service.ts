@@ -1,4 +1,5 @@
 import type { APIGatewayProxyResultV2 as APIResponse } from 'aws-lambda';
+import type { CustomQueryCommandOutput as QueryOutput, QueryRequest } from '@custom-repo/dynamo';
 
 import {
   getExampleTableDescription as getExampleTableDesc,
@@ -7,36 +8,41 @@ import {
   createExampleItem as createExampleItemRepo,
   updateExampleItem as updateExampleItemRepo
 } from '@/repository/example-repository';
-import { QueryRequest } from '@custom-repo/dynamo';
-import { CustomError, formatApiResponse } from '@custom-repo/global-libs';
+import { CustomError, formatApiResponse, logger } from '@custom-repo/global-libs';
 
 export async function getExampleTableDescription(): Promise<APIResponse> {
   const tableDescription = await getExampleTableDesc();
   return formatApiResponse(tableDescription);
 }
 
-export async function getExampleItemById(id: string, keys?: string): Promise<APIResponse> {
+export async function getExampleItemById(id: string, keys?: string): Promise<Partial<object>> {
   const item = await getExampleItemByIdRepo(id, keys);
-  return item ? formatApiResponse(item) : formatApiResponse({ message: 'Item not found' }, 404);
+
+  if (!item) {
+    logger.error(`Item with id ${id} not found`);
+    throw new CustomError(`Item with id ${id} not found`, 404);
+  }
+
+  return item;
 }
 
-export async function getExampleItemsByQuery(queryRequest: QueryRequest): Promise<APIResponse> {
+export async function getExampleItemsByQuery(queryRequest: QueryRequest): Promise<QueryOutput<Partial<object>>> {
   const response = await getExampleByQueryRepo(queryRequest);
-  return formatApiResponse(response);
+  return response;
 }
 
-export async function createExampleItem(newItem: object): Promise<APIResponse> {
+export async function createExampleItem(newItem: object): Promise<object> {
   const response = await createExampleItemRepo(newItem);
   if (!response) {
     throw new CustomError('Failed to create item', 500);
   }
-  return formatApiResponse(response);
+  return response;
 }
 
-export async function updateExampleItem(exampleItem: object): Promise<APIResponse> {
+export async function updateExampleItem(exampleItem: object): Promise<object> {
   const response = await updateExampleItemRepo(exampleItem);
   if (!response) {
     throw new CustomError('Failed to create item', 500);
   }
-  return formatApiResponse(response);
+  return response;
 }
