@@ -12,24 +12,28 @@ export async function getExampleTableDescription(): Promise<DescribeTableCommand
   return await getTableDescription(TABLE_NAME);
 }
 
-export async function getExampleItemById(id: string, projectionExp?: string): Promise<Partial<object> | undefined> {
+export async function getExampleItemById<T>(id: string, projectionExp?: string): Promise<Partial<T> | undefined> {
   const params = {
     tableName: TABLE_NAME,
     key: { id },
     projectionExpression: projectionExp
   };
 
-  return await getRecordByKey<object>(params);
+  return await getRecordByKey<T>(params);
 }
 
-export async function getExampleByQuery(queryRequest: QueryRequest): Promise<QueryOutput<Partial<object>>> {
-  return await queryRecords<object>({ tableName: TABLE_NAME, queryRequest });
+export async function getExampleByQuery<T>(queryRequest: QueryRequest): Promise<QueryOutput<Partial<T>>> {
+  return await queryRecords<T>({ tableName: TABLE_NAME, queryRequest });
 }
 
-export async function createExampleItem(newItem: object): Promise<object> {
-  return await createRecord<object>({ tableName: TABLE_NAME, item: newItem });
+export async function createExampleItem<T>(newItem: T): Promise<T> {
+  return await createRecord<T>({ tableName: TABLE_NAME, item: newItem });
 }
 
-export async function updateExampleItem(exampleItem: object): Promise<object | undefined> {
-  return await updateRecord<object>({ tableName: TABLE_NAME, key: { id: 0 }, item: exampleItem });
+export async function updateExampleItem<T>(key: { id: string }, exampleItem: T): Promise<T | undefined> {
+  return await updateRecord<T>({
+    tableName: TABLE_NAME,
+    key,
+    item: exampleItem
+  });
 }

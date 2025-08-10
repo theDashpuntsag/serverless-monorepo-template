@@ -39,10 +39,10 @@ export async function createExampleItem(newItem: object): Promise<object> {
   return response;
 }
 
-export async function updateExampleItem(exampleItem: object): Promise<object> {
-  const response = await updateExampleItemRepo(exampleItem);
+export async function updateExampleItem(id: string, exampleItem: object): Promise<object> {
+  const response = await updateExampleItemRepo<object>({ id }, exampleItem);
   if (!response) {
-    throw new CustomError('Failed to create item', 500);
+    throw new CustomError('Failed to update item', 500);
   }
   return response;
 }

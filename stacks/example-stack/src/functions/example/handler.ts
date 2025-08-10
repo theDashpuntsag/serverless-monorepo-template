@@ -63,9 +63,11 @@ const postCreateExampleItemFunc: ApiFunc<object> = async (event): Promise<ApiFun
 
 const putUpdateExampleItemFunc: ApiFunc<object> = async (event): Promise<ApiFuncRes> => {
   try {
+    if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
+
     const { body } = extractMetadata(event);
     if (!body) throw new CustomError('Request body is missing');
-    return formatApiResponse(await updateExampleItem(body as object));
+    return formatApiResponse(await updateExampleItem(event.pathParameters.id, body as object));
   } catch (error: unknown) {
     return handleApiFuncError(error);
   }
