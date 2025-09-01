@@ -1,4 +1,3 @@
-import type { APIGatewayProxyResultV2 as APIResponse } from 'aws-lambda';
 import type { CustomQueryCommandOutput as QueryOutput, QueryRequest } from '@custom-repo/dynamo';
 
 import {
@@ -8,11 +7,11 @@ import {
   createExampleItem as createExampleItemRepo,
   updateExampleItem as updateExampleItemRepo
 } from '@/repository/example-repository';
-import { CustomError, formatApiResponse, logger } from '@custom-repo/global-libs';
+import { CustomError, logger } from '@custom-repo/global-libs';
 
-export async function getExampleTableDescription(): Promise<APIResponse> {
-  const tableDescription = await getExampleTableDesc();
-  return formatApiResponse(tableDescription);
+export async function getExampleTableDescription() {
+  const { Table } = await getExampleTableDesc();
+  return Table || {};
 }
 
 export async function getExampleItemById(id: string, keys?: string): Promise<Partial<object>> {

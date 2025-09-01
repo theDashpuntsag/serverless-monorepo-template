@@ -1,6 +1,3 @@
-import type { CustomAPIGatewayEvent as ApiFunc } from '@custom-repo/global-libs';
-import type { APIGatewayProxyResultV2 as ApiFuncRes } from 'aws-lambda';
-
 import {
   getExampleTableDescription,
   getExampleItemById as getExampleItemByIdService,
@@ -8,73 +5,44 @@ import {
   createExampleItem,
   updateExampleItem
 } from '@/services/example';
-import { CustomError, extractMetadata, formatApiResponse, handleApiFuncError, middyfy } from '@custom-repo/global-libs';
+import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';
 import { QueryRequestSchema } from '@custom-repo/dynamo';
 
-const getExampleTableDescFunc: ApiFunc<null> = async (): Promise<ApiFuncRes> => {
-  try {
-    return await getExampleTableDescription();
-  } catch (error: unknown) {
-    return handleApiFuncError(error);
+export const getExampleTableDesc = createApiGatewayFunction(async (_event) => {
+  return await getExampleTableDescription();
+});
+
+export const getExampleItemById = createApiGatewayFunction(async (event) => {
+  if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
+  const { id } = event.pathParameters;
+
+  return await getExampleItemByIdService(id);
+});
+
+export const getExampleItemsByQuery = createApiGatewayFunction(async (event) => {
+  const { queryParams } = extractMetadata(event);
+  if (!queryParams) throw new CustomError('Query params are missing!');
+  const parseResult = QueryRequestSchema.safeParse({ indexName: queryParams.index, ...queryParams });
+
+  if (!parseResult.success) {
+    const validationErrors = parseResult.error.errors.map((err) => err.path).join(', ');
+    throw new CustomError(`Query params are missing!, ${validationErrors}`);
   }
-};
 
-const getExampleItemByIdFunc: ApiFunc<null> = async (event): Promise<ApiFuncRes> => {
-  try {
-    if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
-    const { id } = event.pathParameters;
+  return await getExampleItemsByQueryService(parseResult.data);
+});
 
-    const response = await getExampleItemByIdService(id);
+export const postCreateExampleItem = createApiGatewayFunction<object>(async (event) => {
+  const { body } = extractMetadata(event);
+  if (!body) throw new CustomError('Request body is missing');
 
-    return formatApiResponse(response);
-  } catch (error: unknown) {
-    return handleApiFuncError(error);
-  }
-};
+  return await createExampleItem(body as object);
+});
 
-const getExampleItemsByQueryFunc: ApiFunc<null> = async (event): Promise<ApiFuncRes> => {
-  try {
-    const { queryParams } = extractMetadata(event);
-    if (!queryParams) throw new CustomError('Query params are missing!');
-    const parseResult = QueryRequestSchema.safeParse({ indexName: queryParams.index, ...queryParams });
+export const putUpdateExampleItem = createApiGatewayFunction<object>(async (event) => {
+  if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
 
-    if (!parseResult.success) {
-      const validationErrors = parseResult.error.errors.map((err) => err.path).join(', ');
-      throw new CustomError(`Query params are missing!, ${validationErrors}`);
-    }
-
-    const response = await getExampleItemsByQueryService(parseResult.data);
-
-    return formatApiResponse(response);
-  } catch (error: unknown) {
-    return handleApiFuncError(error);
-  }
-};
-
-const postCreateExampleItemFunc: ApiFunc<object> = async (event): Promise<ApiFuncRes> => {
-  try {
-    const { body } = extractMetadata(event);
-    if (!body) throw new CustomError('Request body is missing');
-    return formatApiResponse(await createExampleItem(body as object));
-  } catch (error: unknown) {
-    return handleApiFuncError(error);
-  }
-};
-
-const putUpdateExampleItemFunc: ApiFunc<object> = async (event): Promise<ApiFuncRes> => {
-  try {
-    if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
-
-    const { body } = extractMetadata(event);
-    if (!body) throw new CustomError('Request body is missing');
-    return formatApiResponse(await updateExampleItem(event.pathParameters.id, body as object));
-  } catch (error: unknown) {
-    return handleApiFuncError(error);
-  }
-};
-
-export const getExampleTableDesc = middyfy(getExampleTableDescFunc);
-export const getExampleItemById = middyfy(getExampleItemByIdFunc);
-export const getExampleItemsByQuery = middyfy(getExampleItemsByQueryFunc);
-export const postCreateExampleItem = middyfy(postCreateExampleItemFunc);
-export const putUpdateExampleItem = middyfy(putUpdateExampleItemFunc);
+  const { body } = extractMetadata(event);
+  if (!body) throw new CustomError('Request body is missing');
+  return await updateExampleItem(event.pathParameters.id, body as object);
+});
