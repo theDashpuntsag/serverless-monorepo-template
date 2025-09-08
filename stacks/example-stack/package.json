@@ -33,25 +33,24 @@
   "dependencies": {
     "@custom-repo/dynamo": "workspace:*",
     "aws-lambda": "^1.0.7",
-    "axios": "^1.7.7",
     "winston": "^3.17.0",
-    "zod": "^3.24.1"
+    "zod": "^4.1.5"
   },
   "devDependencies": {
     "@custom-repo/global-libs": "workspace:*",
     "@custom-repo/global-types": "workspace:*",
     "@custom-repo/typescript-config": "workspace:*",
-    "@eslint/js": "^9.15.0",
+    "@eslint/js": "^9.35.0",
     "@serverless/eslint-config": "^5.1.0",
     "@serverless/typescript": "^3.38.0",
-    "@types/aws-lambda": "^8.10.147",
-    "@types/node": "^22.15.21",
-    "eslint": "^9.18.0",
-    "globals": "^15.14.0",
-    "prettier": "^3.4.2",
-    "serverless": "^4.4.10",
-    "serverless-offline": "^14.3.4",
+    "@types/aws-lambda": "^8.10.152",
+    "@types/node": "^22.18.1",
+    "eslint": "^9.35.0",
+    "globals": "^15.15.0",
+    "prettier": "^3.6.2",
+    "serverless": "^4.18.2",
+    "serverless-offline": "^14.4.0",
     "serverless-prune-plugin": "^2.1.0",
-    "typescript-eslint": "^8.20.0"
+    "typescript-eslint": "^8.42.0"
   }
 }

@@ -9,7 +9,7 @@
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky"
   },
-  "packageManager": "pnpm@10.11.1",
+  "packageManager": "pnpm@10.15.1",
   "private": true,
   "workspaces": [
     "stacks/*",
@@ -27,7 +27,7 @@
   },
   "devDependencies": {
     "husky": "^9.1.7",
-    "prettier": "^3.4.2",
-    "turbo": "^2.5.3"
+    "prettier": "^3.6.2",
+    "turbo": "^2.5.6"
   }
 }

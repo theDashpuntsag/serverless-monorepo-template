@@ -3,20 +3,20 @@
   "version": "0.0.0",
   "private": true,
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.693.0",
-    "@aws-sdk/client-ssm": "^3.693.0",
-    "@middy/core": "^4.1.0",
-    "@middy/http-json-body-parser": "^4.1.0",
-    "axios": "^1.7.7",
+    "@aws-sdk/client-lambda": "^3.883.0",
+    "@aws-sdk/client-ssm": "^3.883.0",
+    "@middy/core": "^4.7.0",
+    "@middy/http-json-body-parser": "^4.7.0",
+    "axios": "^1.11.0",
     "winston": "^3.17.0"
   },
   "devDependencies": {
     "@custom-repo/global-types": "workspace:*",
     "@custom-repo/typescript-config": "workspace:*",
-    "@types/aws-lambda": "^8.10.145",
-    "@types/jsonwebtoken": "^9.0.7"
+    "@types/aws-lambda": "^8.10.152",
+    "@types/jsonwebtoken": "^9.0.10"
   },
   "peerDependencies": {
-    "zod": "^3.24.1"
+    "zod": "^4.1.5"
   }
 }
