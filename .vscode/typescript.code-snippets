@@ -1,0 +1,173 @@
+{
+  "TypeScript Function": {
+    "prefix": "tsf",
+    "body": [
+      "export const ${1:functionName} = (${2:params}): ${3:ReturnType} => {",
+      "\t${4:// Implementation}",
+      "\treturn ${5:result};",
+      "};"
+    ],
+    "description": "Create a TypeScript function"
+  },
+  "TypeScript Interface": {
+    "prefix": "tsi",
+    "body": ["export interface ${1:InterfaceName} {", "\t${2:property}: ${3:type};", "}"],
+    "description": "Create a TypeScript interface"
+  },
+  "TypeScript Type": {
+    "prefix": "tst",
+    "body": ["export type ${1:TypeName} = ${2:type};"],
+    "description": "Create a TypeScript type"
+  },
+  "AWS Lambda Handler": {
+    "prefix": "lambda",
+    "body": [
+      "import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';",
+      "",
+      "export const ${1:handlerName} = async (",
+      "\tevent: APIGatewayProxyEvent",
+      "): Promise<APIGatewayProxyResult> => {",
+      "\ttry {",
+      "\t\t${2:// Implementation}",
+      "",
+      "\t\treturn {",
+      "\t\t\tstatusCode: 200,",
+      "\t\t\theaders: {",
+      "\t\t\t\t'Content-Type': 'application/json',",
+      "\t\t\t\t'Access-Control-Allow-Origin': '*',",
+      "\t\t\t},",
+      "\t\t\tbody: JSON.stringify({",
+      "\t\t\t\tmessage: '${3:Success message}',",
+      "\t\t\t\tdata: ${4:data}",
+      "\t\t\t}),",
+      "\t\t};",
+      "\t} catch (error) {",
+      "\t\tconsole.error('Error:', error);",
+      "\t\treturn {",
+      "\t\t\tstatusCode: 500,",
+      "\t\t\theaders: {",
+      "\t\t\t\t'Content-Type': 'application/json',",
+      "\t\t\t\t'Access-Control-Allow-Origin': '*',",
+      "\t\t\t},",
+      "\t\t\tbody: JSON.stringify({",
+      "\t\t\t\terror: 'Internal Server Error'",
+      "\t\t\t}),",
+      "\t\t};",
+      "\t}",
+      "};"
+    ],
+    "description": "Create an AWS Lambda handler function"
+  },
+  "DynamoDB Query": {
+    "prefix": "dynamo",
+    "body": [
+      "import { DynamoDBClient } from '@aws-sdk/client-dynamodb';",
+      "import { DynamoDBDocumentClient, ${1:QueryCommand} } from '@aws-sdk/lib-dynamodb';",
+      "",
+      "const client = new DynamoDBClient({});",
+      "const docClient = DynamoDBDocumentClient.from(client);",
+      "",
+      "export const ${2:queryFunction} = async (${3:params}) => {",
+      "\tconst command = new ${1:QueryCommand}({",
+      "\t\tTableName: '${4:TableName}',",
+      "\t\t${5:// Additional parameters}",
+      "\t});",
+      "",
+      "\tconst response = await docClient.send(command);",
+      "\treturn response.Items;",
+      "};"
+    ],
+    "description": "Create a DynamoDB query function"
+  },
+  "Zod Schema": {
+    "prefix": "zod",
+    "body": [
+      "import { z } from 'zod';",
+      "",
+      "export const ${1:schemaName}Schema = z.object({",
+      "\t${2:property}: z.${3:string}(),",
+      "});",
+      "",
+      "export type ${1:schemaName} = z.infer<typeof ${1:schemaName}Schema>;"
+    ],
+    "description": "Create a Zod schema with TypeScript type"
+  },
+  "API Response": {
+    "prefix": "apiresponse",
+    "body": [
+      "return {",
+      "\tstatusCode: ${1:200},",
+      "\theaders: {",
+      "\t\t'Content-Type': 'application/json',",
+      "\t\t'Access-Control-Allow-Origin': '*',",
+      "\t\t'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',",
+      "\t\t'Access-Control-Allow-Headers': 'Content-Type, Authorization',",
+      "\t},",
+      "\tbody: JSON.stringify({",
+      "\t\t${2:message}: '${3:Success}',",
+      "\t\t${4:data}: ${5:responseData}",
+      "\t}),",
+      "};"
+    ],
+    "description": "Create an API Gateway response"
+  },
+  "Error Response": {
+    "prefix": "errorresponse",
+    "body": [
+      "return {",
+      "\tstatusCode: ${1:400},",
+      "\theaders: {",
+      "\t\t'Content-Type': 'application/json',",
+      "\t\t'Access-Control-Allow-Origin': '*',",
+      "\t},",
+      "\tbody: JSON.stringify({",
+      "\t\terror: '${2:Error message}',",
+      "\t\tdetails: ${3:errorDetails}",
+      "\t}),",
+      "};"
+    ],
+    "description": "Create an error response"
+  },
+  "Async Try-Catch": {
+    "prefix": "tryasync",
+    "body": [
+      "try {",
+      "\t${1:// Async operation}",
+      "} catch (error) {",
+      "\tconsole.error('Error in ${2:function}:', error);",
+      "\t${3:// Error handling}",
+      "}"
+    ],
+    "description": "Create a try-catch block for async operations"
+  },
+  "Console Log with Context": {
+    "prefix": "clog",
+    "body": ["console.log('${1:context}:', JSON.stringify(${2:data}, null, 2));"],
+    "description": "Console log with context and formatted JSON"
+  },
+  "Package.json Script": {
+    "prefix": "script",
+    "body": ["\"${1:scriptName}\": \"${2:command}\""],
+    "description": "Add a script to package.json"
+  },
+  "TypeScript Test": {
+    "prefix": "test",
+    "body": [
+      "import { describe, it, expect } from '@jest/globals';",
+      "",
+      "describe('${1:TestSuite}', () => {",
+      "\tit('should ${2:test description}', async () => {",
+      "\t\t// Arrange",
+      "\t\t${3:// Setup test data}",
+      "",
+      "\t\t// Act",
+      "\t\t${4:// Execute test}",
+      "",
+      "\t\t// Assert",
+      "\t\texpect(${5:result}).${6:toBe}(${7:expected});",
+      "\t});",
+      "});"
+    ],
+    "description": "Create a TypeScript test with Jest"
+  }
+}

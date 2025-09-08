@@ -1,10 +1,10 @@
 import type { CustomQueryCommandOutput as QueryOutput, QueryRequest } from '@custom-repo/dynamo';
 
 import {
-  getExampleTableDescription as getExampleTableDesc,
-  getExampleItemById as getExampleItemByIdRepo,
-  getExampleByQuery as getExampleByQueryRepo,
   createExampleItem as createExampleItemRepo,
+  getExampleByQuery as getExampleByQueryRepo,
+  getExampleItemById as getExampleItemByIdRepo,
+  getExampleTableDescription as getExampleTableDesc,
   updateExampleItem as updateExampleItemRepo
 } from '@/repository/example-repository';
 import { CustomError, logger } from '@custom-repo/global-libs';

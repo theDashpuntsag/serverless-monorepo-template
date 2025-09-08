@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "build": "tsc --build",
-    "type-check": "tsc --build --noEmit",
+    "type-check": "tsc --noEmit",
     "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "format:fix": "prettier --write \"**/*.{ts,tsx,md,json}\"",
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
@@ -14,9 +14,9 @@
     "@aws-sdk/lib-dynamodb": "^3.883.0"
   },
   "devDependencies": {
-    "typescript": "^5.7.2",
     "@custom-repo/global-libs": "workspace:*",
-    "@custom-repo/typescript-config": "workspace:*"
+    "@custom-repo/typescript-config": "workspace:*",
+    "typescript": "^5.6.3"
   },
   "peerDependencies": {
     "zod": "^4.1.5"

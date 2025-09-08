@@ -6,6 +6,7 @@
   "scripts": {
     "build": "turbo run build",
     "lint": "turbo run lint",
+    "type-check": "turbo run type-check",
     "format": "turbo run format",
     "format:fix": "turbo run format:fix",
     "format:check": "turbo run format:check",
@@ -30,6 +31,7 @@
   "devDependencies": {
     "husky": "^9.1.7",
     "prettier": "^3.6.2",
-    "turbo": "^2.5.6"
+    "turbo": "^2.5.6",
+    "typescript": "5.6.3"
   }
 }

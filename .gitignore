@@ -35,3 +35,6 @@ yarn-error.log*
 
 # ui
 dist/
+
+# vscode personal settings (keep workspace config)
+.vscode/settings.json.user
