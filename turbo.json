@@ -8,6 +8,15 @@
     },
     "lint": {},
     "type-check": {},
+    "format": {
+      "cache": false
+    },
+    "format:fix": {
+      "cache": false
+    },
+    "format:check": {
+      "cache": false
+    },
     "dev": {
       "cache": false,
       "persistent": true

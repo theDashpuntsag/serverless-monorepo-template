@@ -1,6 +1,6 @@
 import { z } from 'zod';
 
-export const QueryParamsSchema = z.record(z.string());
+export const QueryParamsSchema = z.record(z.string(), z.string());
 
 export type QueryParams = z.infer<typeof QueryParamsSchema>;
 

@@ -2,6 +2,13 @@
   "name": "@custom-repo/global-libs",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "build": "tsc --build",
+    "type-check": "tsc --build --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
+  },
   "dependencies": {
     "@aws-sdk/client-lambda": "^3.883.0",
     "@aws-sdk/client-ssm": "^3.883.0",
@@ -11,6 +18,7 @@
     "winston": "^3.17.0"
   },
   "devDependencies": {
+    "typescript": "^5.7.2",
     "@custom-repo/global-types": "workspace:*",
     "@custom-repo/typescript-config": "workspace:*",
     "@types/aws-lambda": "^8.10.152",

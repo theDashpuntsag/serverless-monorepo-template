@@ -22,10 +22,11 @@ export const getExampleItemById = createApiGatewayFunction(async (event) => {
 export const getExampleItemsByQuery = createApiGatewayFunction(async (event) => {
   const { queryParams } = extractMetadata(event);
   if (!queryParams) throw new CustomError('Query params are missing!');
+
   const parseResult = QueryRequestSchema.safeParse({ indexName: queryParams.index, ...queryParams });
 
   if (!parseResult.success) {
-    const validationErrors = parseResult.error.errors.map((err) => err.path).join(', ');
+    const validationErrors = parseResult.error.issues.map((err) => err.path.join('.')).join(', ');
     throw new CustomError(`Query params are missing!, ${validationErrors}`);
   }
 

@@ -6,7 +6,9 @@
   "scripts": {
     "build": "turbo run build",
     "lint": "turbo run lint",
-    "format": "prettier --write \"**/*.{ts,tsx,md}\"",
+    "format": "turbo run format",
+    "format:fix": "turbo run format:fix",
+    "format:check": "turbo run format:check",
     "prepare": "husky"
   },
   "packageManager": "pnpm@10.15.1",

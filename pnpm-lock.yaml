@@ -36,6 +36,9 @@ importers:
       '@custom-repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.3
 
   packages/global-libs:
     dependencies:
@@ -58,8 +61,8 @@ importers:
         specifier: ^3.17.0
         version: 3.17.0
       zod:
-        specifier: ^3.24.1
-        version: 3.25.76
+        specifier: ^4.1.5
+        version: 4.1.5
     devDependencies:
       '@custom-repo/global-types':
         specifier: workspace:*
@@ -73,6 +76,9 @@ importers:
       '@types/jsonwebtoken':
         specifier: ^9.0.10
         version: 9.0.10
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.3
 
   packages/global-types:
     dependencies:
@@ -107,9 +113,6 @@ importers:
       aws-lambda:
         specifier: ^1.0.7
         version: 1.0.7
-      axios:
-        specifier: ^1.11.0
-        version: 1.11.0
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -159,6 +162,9 @@ importers:
       serverless-prune-plugin:
         specifier: ^2.1.0
         version: 2.1.0(serverless@4.18.2)
+      typescript:
+        specifier: ^5.7.2
+        version: 5.7.3
       typescript-eslint:
         specifier: ^8.42.0
         version: 8.42.0(eslint@9.35.0)(typescript@5.7.3)
@@ -2145,9 +2151,6 @@ packages:
   yocto-queue@0.1.0:
     resolution: {integrity: sha512-rVksvsnNCdJ/ohGc6xgPwyN8eheCxsiLM8mxuE/t/mOVqJewPuO1miLpTHQiRgTKCLexL4MeAFVagts7HmNZ2Q==}
     engines: {node: '>=10'}
-
-  zod@3.25.76:
-    resolution: {integrity: sha512-gzUt/qt81nXsFGKIFcC3YnfEAx5NkunCfnDlvuBSSFS02bcXu4Lmea0AFIUwbLWxWPx3d9p8S5QoaujKcNQxcQ==}
 
   zod@4.1.5:
     resolution: {integrity: sha512-rcUUZqlLJgBC33IT3PNMgsCq6TzLQEG/Ei/KTCU0PedSWRMAXoOUN+4t/0H+Q8bdnLPdqUYnvboJT0bn/229qg==}
@@ -4662,7 +4665,5 @@ snapshots:
   xmlbuilder@11.0.1: {}
 
   yocto-queue@0.1.0: {}
-
-  zod@3.25.76: {}
 
   zod@4.1.5: {}

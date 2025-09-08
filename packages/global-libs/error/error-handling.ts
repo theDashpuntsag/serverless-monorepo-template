@@ -24,13 +24,13 @@ function handleDefaultError(error: unknown): LbdFuncResponse {
 }
 
 function handleZodError(error: ZodError): APIGatewayProxyResultV2 {
-  const missingFields = error.errors.map((err) => err.path.join('.') || 'unknown field');
+  const missingFields = error.issues.map((err) => err.path.join('.') || 'unknown field');
   const formattedMessage = `Missing or invalid fields: ${missingFields.join(', ')}`;
   return formatApiResponse({ error: { message: formattedMessage } }, 400);
 }
 
 function handleZodFuncError(error: ZodError): LbdFuncResponse {
-  const missingFields = error.errors.map((err) => err.path.join('.') || 'unknown field');
+  const missingFields = error.issues.map((err) => err.path.join('.') || 'unknown field');
   const formattedMessage = `Missing or invalid fields: ${missingFields.join(', ')}`;
   return formatResponse({ error: { message: formattedMessage } }, 400);
 }

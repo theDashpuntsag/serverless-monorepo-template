@@ -75,7 +75,7 @@ export type CustomPutCommandInput<T> = {
 export const CustomUpdateItemInputSchema = <T extends z.ZodTypeAny>(itemSchema: T) =>
   z.object({
     tableName: z.string(),
-    key: z.record(z.any()),
+    key: z.record(z.string(), z.any()),
     items: z.array(itemSchema),
     updateExpression: z.string(), // The update expression specifying attributes to update (required)
     conditionExpression: z.string().optional(),

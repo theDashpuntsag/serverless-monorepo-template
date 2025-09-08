@@ -2,6 +2,11 @@
   "name": "@custom-repo/global-types",
   "version": "0.0.0",
   "private": true,
+  "scripts": {
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
+  },
   "peerDependencies": {
     "zod": "^4.1.5"
   },
