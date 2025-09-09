@@ -1,5 +1,5 @@
-import type { APIGatewayProxyEvent } from 'aws-lambda';
 import type { QueryParams, RequestMetadata } from '@custom-repo/global-types';
+import type { APIGatewayProxyEvent } from 'aws-lambda';
 import { logger } from '../utils';
 
 interface ExtendedAPIGatewayProxyEvent extends Omit<APIGatewayProxyEvent, 'body'> {

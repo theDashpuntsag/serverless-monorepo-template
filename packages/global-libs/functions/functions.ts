@@ -1,11 +1,11 @@
 import type { APIGatewayProxyResultV2 } from 'aws-lambda';
 import type { ValidatedAPIGatewayProxyEvent } from '../gateway';
 
-import { authenticatedApiFunctionConfig, defaultApiFunctionConfig, generatePathname } from './configs';
-import { handleApiFuncError } from '../error';
-import { formatApiResponse } from './response-format';
 import middy from '@middy/core';
 import middyJsonBodyParser from '@middy/http-json-body-parser';
+import { handleApiFuncError } from '../error';
+import { authenticatedApiFunctionConfig, defaultApiFunctionConfig, generatePathname } from './configs';
+import { formatApiResponse } from './response-format';
 
 /**
  * @fileoverview Lambda function configuration generators for serverless applications.
@@ -149,12 +149,21 @@ export function createScheduledFunc(
 }
 
 /**
- * Creates an API Gateway Lambda function with a specific callback.
- *
- * @param callback
- * @returns
+ * Creates a standardized HTTP handler for AWS Lambda functions using Middy middleware.
+ * Wraps the provided callback with error handling and JSON body parsing.
+ * @param callback - Async function that processes the event and returns a response object.
+ * @returns A Middy-wrapped Lambda handler function.
+ * @example
+ * ```typescript
+ * export const getUser = createHttpHandler(async (event) => {
+ *   const userId = event.pathParameters?.id;
+ *   if (!userId) throw new CustomError('User ID is required', 400);
+ *   const user = await getUserById(userId);
+ *   return user;
+ * });
+ * ```
  */
-export function createApiGatewayFunction<S>(callback: (_event: ValidatedAPIGatewayProxyEvent<S>) => Promise<object>) {
+export function createHttpHandler<S>(callback: (_event: ValidatedAPIGatewayProxyEvent<S>) => Promise<object>) {
   return middy(async (event: ValidatedAPIGatewayProxyEvent<S>): Promise<APIGatewayProxyResultV2> => {
     try {
       const result = await callback(event);

@@ -19,65 +19,147 @@
     "body": ["export type ${1:TypeName} = ${2:type};"],
     "description": "Create a TypeScript type"
   },
+  "Declare Async function": {
+    "prefix": "daf",
+    "body": [
+      "export async function ${1:functionName}(${2:params}): Promise<${3:ReturnType}> {",
+      "\t${4:// Implementation}",
+      "\treturn ${5:result};",
+      "}"
+    ],
+    "description": "Declare an async function with Promise return type"
+  },
   "AWS Lambda Handler": {
     "prefix": "lambda",
     "body": [
-      "import { APIGatewayProxyEvent, APIGatewayProxyResult } from 'aws-lambda';",
+      "import { ${1:serviceName}Service } from '@/services/${2:entityName}';",
+      "import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';",
       "",
-      "export const ${1:handlerName} = async (",
-      "\tevent: APIGatewayProxyEvent",
-      "): Promise<APIGatewayProxyResult> => {",
-      "\ttry {",
-      "\t\t${2:// Implementation}",
-      "",
-      "\t\treturn {",
-      "\t\t\tstatusCode: 200,",
-      "\t\t\theaders: {",
-      "\t\t\t\t'Content-Type': 'application/json',",
-      "\t\t\t\t'Access-Control-Allow-Origin': '*',",
-      "\t\t\t},",
-      "\t\t\tbody: JSON.stringify({",
-      "\t\t\t\tmessage: '${3:Success message}',",
-      "\t\t\t\tdata: ${4:data}",
-      "\t\t\t}),",
-      "\t\t};",
-      "\t} catch (error) {",
-      "\t\tconsole.error('Error:', error);",
-      "\t\treturn {",
-      "\t\t\tstatusCode: 500,",
-      "\t\t\theaders: {",
-      "\t\t\t\t'Content-Type': 'application/json',",
-      "\t\t\t\t'Access-Control-Allow-Origin': '*',",
-      "\t\t\t},",
-      "\t\t\tbody: JSON.stringify({",
-      "\t\t\t\terror: 'Internal Server Error'",
-      "\t\t\t}),",
-      "\t\t};",
-      "\t}",
-      "};"
+      "export const ${3:handlerName} = createApiGatewayFunction(async (event) => {",
+      "\t${4:// Implementation}",
+      "\treturn await ${1:serviceName}Service();",
+      "});"
     ],
-    "description": "Create an AWS Lambda handler function"
+    "description": "Create an AWS Lambda handler with createApiGatewayFunction"
   },
-  "DynamoDB Query": {
+  "Lambda GET by ID": {
+    "prefix": "lambdaget",
+    "body": [
+      "import { ${1:serviceName}Service } from '@/services/${2:entityName}';",
+      "import { createApiGatewayFunction, CustomError } from '@custom-repo/global-libs';",
+      "",
+      "export const get${3:EntityName}ById = createApiGatewayFunction(async (event) => {",
+      "\tif (!event.pathParameters || !event.pathParameters.id) {",
+      "\t\tthrow new CustomError('Path variable is missing');",
+      "\t}",
+      "\tconst { id } = event.pathParameters;",
+      "",
+      "\treturn await ${1:serviceName}Service(id);",
+      "});"
+    ],
+    "description": "Create a Lambda handler for GET by ID"
+  },
+  "Lambda POST Create": {
+    "prefix": "lambdapost",
+    "body": [
+      "import { ${1:serviceName}Service } from '@/services/${2:entityName}';",
+      "import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';",
+      "",
+      "export const postCreate${3:EntityName} = createApiGatewayFunction<${4:EntityType}>(async (event) => {",
+      "\tconst { body } = extractMetadata(event);",
+      "\tif (!body) throw new CustomError('Request body is missing');",
+      "",
+      "\treturn await ${1:serviceName}Service(body as ${4:EntityType});",
+      "});"
+    ],
+    "description": "Create a Lambda handler for POST create"
+  },
+  "Lambda PUT Update": {
+    "prefix": "lambdaput",
+    "body": [
+      "import { ${1:serviceName}Service } from '@/services/${2:entityName}';",
+      "import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';",
+      "",
+      "export const putUpdate${3:EntityName} = createApiGatewayFunction<${4:EntityType}>(async (event) => {",
+      "\tif (!event.pathParameters || !event.pathParameters.id) {",
+      "\t\tthrow new CustomError('Path variable is missing');",
+      "\t}",
+      "",
+      "\tconst { body } = extractMetadata(event);",
+      "\tif (!body) throw new CustomError('Request body is missing');",
+      "",
+      "\treturn await ${1:serviceName}Service(event.pathParameters.id, body as ${4:EntityType});",
+      "});"
+    ],
+    "description": "Create a Lambda handler for PUT update"
+  },
+  "Lambda Query": {
+    "prefix": "lambdaquery",
+    "body": [
+      "import { ${1:serviceName}Service } from '@/services/${2:entityName}';",
+      "import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';",
+      "import { QueryRequestSchema } from '@custom-repo/dynamo';",
+      "",
+      "export const get${3:EntityName}sByQuery = createApiGatewayFunction(async (event) => {",
+      "\tconst { queryParams } = extractMetadata(event);",
+      "\tif (!queryParams) throw new CustomError('Query params are missing!');",
+      "",
+      "\tconst parseResult = QueryRequestSchema.safeParse({ indexName: queryParams.index, ...queryParams });",
+      "",
+      "\tif (!parseResult.success) {",
+      "\t\tconst validationErrors = parseResult.error.issues.map((err) => err.path.join('.')).join(', ');",
+      "\t\tthrow new CustomError(`Query params are missing!, \\${validationErrors}`);",
+      "\t}",
+      "",
+      "\treturn await ${1:serviceName}Service(parseResult.data);",
+      "});"
+    ],
+    "description": "Create a Lambda handler for query operations"
+  },
+  "DynamoDB Service": {
     "prefix": "dynamo",
     "body": [
-      "import { DynamoDBClient } from '@aws-sdk/client-dynamodb';",
-      "import { DynamoDBDocumentClient, ${1:QueryCommand} } from '@aws-sdk/lib-dynamodb';",
+      "import type {",
+      "\tDescribeTableCommandOutput,",
+      "\tCustomQueryCommandOutput as QueryOutput,",
+      "\tQueryRequest",
+      "} from '@custom-repo/dynamo';",
       "",
-      "const client = new DynamoDBClient({});",
-      "const docClient = DynamoDBDocumentClient.from(client);",
+      "import { createRecord, getRecordByKey, getTableDescription, queryRecords, updateRecord } from '@custom-repo/dynamo';",
       "",
-      "export const ${2:queryFunction} = async (${3:params}) => {",
-      "\tconst command = new ${1:QueryCommand}({",
-      "\t\tTableName: '${4:TableName}',",
-      "\t\t${5:// Additional parameters}",
+      "const TABLE_NAME = '${1:tableName}';",
+      "",
+      "export async function get${2:Example}TableDescription(): Promise<DescribeTableCommandOutput> {",
+      "\treturn await getTableDescription(TABLE_NAME);",
+      "}",
+      "",
+      "export async function get${2:Example}ItemById<T>(id: string, projectionExp?: string): Promise<Partial<T> | undefined> {",
+      "\tconst params = {",
+      "\t\ttableName: TABLE_NAME,",
+      "\t\tkey: { id },",
+      "\t\tprojectionExpression: projectionExp",
+      "\t};",
+      "",
+      "\treturn await getRecordByKey<T>(params);",
+      "}",
+      "",
+      "export async function get${2:Example}ByQuery<T>(queryRequest: QueryRequest): Promise<QueryOutput<Partial<T>>> {",
+      "\treturn await queryRecords<T>({ tableName: TABLE_NAME, queryRequest });",
+      "}",
+      "",
+      "export async function create${2:Example}Item<T>(newItem: T): Promise<T> {",
+      "\treturn await createRecord<T>({ tableName: TABLE_NAME, item: newItem });",
+      "}",
+      "",
+      "export async function update${2:Example}Item<T>(key: { id: string }, ${3:example}Item: T): Promise<T | undefined> {",
+      "\treturn await updateRecord<T>({",
+      "\t\ttableName: TABLE_NAME,",
+      "\t\tkey,",
+      "\t\titem: ${3:example}Item",
       "\t});",
-      "",
-      "\tconst response = await docClient.send(command);",
-      "\treturn response.Items;",
-      "};"
+      "}"
     ],
-    "description": "Create a DynamoDB query function"
+    "description": "Create a complete DynamoDB service with custom repo functions"
   },
   "Zod Schema": {
     "prefix": "zod",
@@ -92,42 +174,7 @@
     ],
     "description": "Create a Zod schema with TypeScript type"
   },
-  "API Response": {
-    "prefix": "apiresponse",
-    "body": [
-      "return {",
-      "\tstatusCode: ${1:200},",
-      "\theaders: {",
-      "\t\t'Content-Type': 'application/json',",
-      "\t\t'Access-Control-Allow-Origin': '*',",
-      "\t\t'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',",
-      "\t\t'Access-Control-Allow-Headers': 'Content-Type, Authorization',",
-      "\t},",
-      "\tbody: JSON.stringify({",
-      "\t\t${2:message}: '${3:Success}',",
-      "\t\t${4:data}: ${5:responseData}",
-      "\t}),",
-      "};"
-    ],
-    "description": "Create an API Gateway response"
-  },
-  "Error Response": {
-    "prefix": "errorresponse",
-    "body": [
-      "return {",
-      "\tstatusCode: ${1:400},",
-      "\theaders: {",
-      "\t\t'Content-Type': 'application/json',",
-      "\t\t'Access-Control-Allow-Origin': '*',",
-      "\t},",
-      "\tbody: JSON.stringify({",
-      "\t\terror: '${2:Error message}',",
-      "\t\tdetails: ${3:errorDetails}",
-      "\t}),",
-      "};"
-    ],
-    "description": "Create an error response"
-  },
+
   "Async Try-Catch": {
     "prefix": "tryasync",
     "body": [

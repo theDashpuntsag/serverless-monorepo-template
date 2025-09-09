@@ -82,16 +82,21 @@ Pre-configured tasks for common operations:
 
 Useful code snippets for serverless TypeScript development:
 
-| Snippet         | Trigger              | Description                            |
-| --------------- | -------------------- | -------------------------------------- |
-| `tsf`           | TypeScript Function  | Export const arrow function            |
-| `tsi`           | TypeScript Interface | Interface definition                   |
-| `lambda`        | AWS Lambda Handler   | Complete Lambda function template      |
-| `dynamo`        | DynamoDB Query       | DynamoDB operation with AWS SDK v3     |
-| `zod`           | Zod Schema           | Schema definition with TypeScript type |
-| `apiresponse`   | API Response         | Standard API Gateway response          |
-| `errorresponse` | Error Response       | Error response with CORS headers       |
-| `test`          | TypeScript Test      | Jest test template                     |
+| Snippet         | Trigger                | Description                                |
+| --------------- | ---------------------- | ------------------------------------------ |
+| `tsf`           | TypeScript Function    | Export const arrow function                |
+| `tsi`           | TypeScript Interface   | Interface definition                       |
+| `daf`           | Declare Async Function | Async function with Promise return type    |
+| `lambda`        | AWS Lambda Handler     | Basic Lambda with createApiGatewayFunction |
+| `lambdaget`     | Lambda GET by ID       | GET handler with path parameter validation |
+| `lambdapost`    | Lambda POST Create     | POST handler with body validation          |
+| `lambdaput`     | Lambda PUT Update      | PUT handler with ID and body validation    |
+| `lambdaquery`   | Lambda Query           | Query handler with query params validation |
+| `dynamo`        | DynamoDB Service       | Complete DynamoDB service with custom repo |
+| `zod`           | Zod Schema             | Schema definition with TypeScript type     |
+| `apiresponse`   | API Response           | Standard API Gateway response              |
+| `errorresponse` | Error Response         | Error response with CORS headers           |
+| `test`          | TypeScript Test        | Jest test template                         |
 
 ## 🚀 Getting Started
 
@@ -198,7 +203,7 @@ The workspace is configured with **dual ruler lines** to help maintain consisten
 
 The workspace enables **comprehensive TypeScript inlay hints** to show type information inline with your code:
 
-### **What You See:**
+### **What You See in:**
 
 #### **Parameter Names** (`"literals"`)
 

@@ -1,25 +1,25 @@
 import {
-  getExampleTableDescription,
+  createExampleItem,
   getExampleItemById as getExampleItemByIdService,
   getExampleItemsByQuery as getExampleItemsByQueryService,
-  createExampleItem,
+  getExampleTableDescription,
   updateExampleItem
 } from '@/services/example';
-import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';
 import { QueryRequestSchema } from '@custom-repo/dynamo';
+import { createHttpHandler, CustomError, extractMetadata } from '@custom-repo/global-libs';
 
-export const getExampleTableDesc = createApiGatewayFunction(async (_event) => {
+export const getExampleTableDesc = createHttpHandler(async (_event) => {
   return await getExampleTableDescription();
 });
 
-export const getExampleItemById = createApiGatewayFunction(async (event) => {
+export const getExampleItemById = createHttpHandler(async (event) => {
   if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
   const { id } = event.pathParameters;
 
   return await getExampleItemByIdService(id);
 });
 
-export const getExampleItemsByQuery = createApiGatewayFunction(async (event) => {
+export const getExampleItemsByQuery = createHttpHandler(async (event) => {
   const { queryParams } = extractMetadata(event);
   if (!queryParams) throw new CustomError('Query params are missing!');
 
@@ -33,14 +33,14 @@ export const getExampleItemsByQuery = createApiGatewayFunction(async (event) => 
   return await getExampleItemsByQueryService(parseResult.data);
 });
 
-export const postCreateExampleItem = createApiGatewayFunction<object>(async (event) => {
+export const postCreateExampleItem = createHttpHandler<object>(async (event) => {
   const { body } = extractMetadata(event);
   if (!body) throw new CustomError('Request body is missing');
 
   return await createExampleItem(body as object);
 });
 
-export const putUpdateExampleItem = createApiGatewayFunction<object>(async (event) => {
+export const putUpdateExampleItem = createHttpHandler<object>(async (event) => {
   if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
 
   const { body } = extractMetadata(event);
