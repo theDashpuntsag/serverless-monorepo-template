@@ -1,11 +1,11 @@
-import type { AWS } from '@serverless/typescript';
 import {
-  getExampleTableDesc,
   getExampleItemById,
   getExampleItemsByQuery,
+  getExampleTableDesc,
   postCreateExampleItem,
   putUpdateExampleItem
 } from '@/functions/example';
+import type { AWS } from '@serverless/typescript';
 
 const serverlessConfig: AWS = {
   service: 'service-name',
@@ -15,7 +15,7 @@ const serverlessConfig: AWS = {
   provider: {
     name: 'aws',
     stage: "${opt:stage, 'prod'}",
-    runtime: 'nodejs20.x',
+    runtime: 'nodejs22.x',
     region: 'ap-southeast-1',
     profile: 'default',
     timeout: 29,
