@@ -35,7 +35,6 @@
   "dependencies": {
     "@custom-repo/dynamo": "workspace:*",
     "aws-lambda": "^1.0.7",
-    "winston": "^3.17.0",
     "zod": "^4.1.5"
   },
   "devDependencies": {
@@ -44,7 +43,7 @@
     "@custom-repo/typescript-config": "workspace:*",
     "@eslint/js": "^9.35.0",
     "@serverless/eslint-config": "^5.1.0",
-    "@serverless/typescript": "^3.38.0",
+    "@serverless/typescript": "^4.18.2",
     "@types/aws-lambda": "^8.10.152",
     "@types/node": "^22.18.1",
     "eslint": "^9.35.0",
