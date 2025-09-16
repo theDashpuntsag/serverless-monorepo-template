@@ -10,13 +10,13 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
   },
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.883.0",
-    "@aws-sdk/lib-dynamodb": "^3.883.0"
+    "@aws-sdk/client-dynamodb": "^3.888.0",
+    "@aws-sdk/lib-dynamodb": "^3.888.0"
   },
   "devDependencies": {
     "@custom-repo/global-libs": "workspace:*",
     "@custom-repo/typescript-config": "workspace:*",
-    "typescript": "^5.6.3"
+    "typescript": "^5.9.2"
   },
   "peerDependencies": {
     "zod": "^4.1.5"
