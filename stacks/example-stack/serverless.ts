@@ -1,11 +1,5 @@
-import {
-  getExampleItemById,
-  getExampleItemsByQuery,
-  getExampleTableDesc,
-  postCreateExampleItem,
-  putUpdateExampleItem
-} from '@/functions/example';
 import type { AWS } from '@serverless/typescript';
+import { API_EXAMPLE } from './src/functions/example';
 
 const serverlessConfig: AWS = {
   service: 'service-name',
@@ -42,11 +36,7 @@ const serverlessConfig: AWS = {
     iam: { role: 'YOUR_ROLE_HERE' }
   },
   functions: {
-    getExampleTableDesc,
-    getExampleItemById,
-    getExampleItemsByQuery,
-    postCreateExampleItem,
-    putUpdateExampleItem
+    ...API_EXAMPLE
   },
   package: { individually: true },
   custom: { prune: { automatic: true, number: 2 } }
