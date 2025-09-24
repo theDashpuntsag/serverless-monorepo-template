@@ -1,8 +1,5 @@
-import type { ValidatedAPIGatewayProxyEvent } from '@custom-repo/global-libs';
-import type { QueryRequest } from '../types';
-
-import { QueryRequestSchema } from '../types';
-import { CustomError, logger } from '@custom-repo/global-libs';
+import { CustomError, logger, ValidatedAPIGatewayProxyEvent } from '@custom-repo/global-libs';
+import { QueryRequest, QueryRequestSchema } from '../types';
 
 type EventType = ValidatedAPIGatewayProxyEvent<object | null>;
 
@@ -45,8 +42,8 @@ export function extractQueryParamsFromEvent(event: EventType, query: QueryReques
 
   // Case 2: Only an index is provided and it matches query.indexName
   // Merge with defaults from `query` to provide a full set of parameters
-  const queryParamsKeys = Object.keys(queryParams);
-  if (queryParamsKeys.length === 1 && queryParams.index === query.indexName) {
+  const isPkeyExists = queryParams.pKey && queryParams.pKey?.length > 0;
+  if (!isPkeyExists && queryParams.index === query.indexName) {
     const params = {
       indexName: query.indexName,
       pKey: queryParams.pKey || query.pKey, // Use queryParams.pKey if provided, else query.pKey
@@ -76,7 +73,7 @@ export function extractQueryParamsFromEvent(event: EventType, query: QueryReques
   // Case 3: Any other query parameters provided
   // Build the result from queryParams only, with a default limit and optional fields as specified
   const params = {
-    indexName: queryParams.index,
+    indexName: queryParams.index, // Fallback to query.indexName if index is missing
     pKey: queryParams.pKey, // No default fallback; schema will enforce requirement
     pKeyType: queryParams.pKeyType,
     pKeyProp: queryParams.pKeyProp,

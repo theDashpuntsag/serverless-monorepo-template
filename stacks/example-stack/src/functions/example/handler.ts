@@ -5,14 +5,14 @@ import {
   getExampleItemTableDesc,
   updateExampleItem
 } from '@/services/example';
-import { QueryRequestSchema } from '@custom-repo/dynamo';
+import { extractQueryParamsFromEvent, QueryRequestSchema } from '@custom-repo/dynamo';
 import { createHttpHandler, CustomError, extractMetadata } from '@custom-repo/global-libs';
 
-export const getExampleTableDesc = createHttpHandler(async (_event) => {
+export const getExampleTableDesc = createHttpHandler<null>(async (_event) => {
   return await getExampleItemTableDesc();
 });
 
-export const getExampleItemById = createHttpHandler(async (event) => {
+export const getExampleItemById = createHttpHandler<null>(async (event) => {
   if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
   const { id } = event.pathParameters;
 
@@ -22,18 +22,22 @@ export const getExampleItemById = createHttpHandler(async (event) => {
   return response;
 });
 
-export const getExampleItemsByQuery = createHttpHandler(async (event) => {
+export const getExampleItemsByQuery = createHttpHandler<null>(async (event) => {
   const { queryParams } = extractMetadata(event);
   if (!queryParams) throw new CustomError('Query params are missing!');
 
-  const parseResult = QueryRequestSchema.safeParse({ indexName: queryParams.index, ...queryParams });
+  const parseResult = extractQueryParamsFromEvent(
+    event,
+    QueryRequestSchema.parse({
+      indexName: 'example-index',
+      pKey: 'exampleId',
+      pKeyType: 'S',
+      pKeyProp: 'exampleId',
+      limit: '10'
+    })
+  );
 
-  if (!parseResult.success) {
-    const validationErrors = parseResult.error.issues.map((err) => err.path.join('.')).join(', ');
-    throw new CustomError(`Query params are missing!, ${validationErrors}`);
-  }
-
-  return await getExampleItemsByQueryService(parseResult.data);
+  return await getExampleItemsByQueryService(parseResult);
 });
 
 export const postCreateExampleItem = createHttpHandler<object>(async (event) => {
