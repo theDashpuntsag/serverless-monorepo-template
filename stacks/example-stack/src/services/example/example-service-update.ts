@@ -1,6 +1,6 @@
 import type { ExampleItem } from '@/@types/';
 import { updateExampleItem as updateExampleItemRepo } from '@/repository/example-repository';
-import { CustomError } from '@custom-repo/global-libs';
+import { CustomError } from '@custom-repo/libs';
 import { getExampleItemById } from './';
 
 export async function updateExampleItem(id: string, update: object): Promise<ExampleItem> {

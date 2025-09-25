@@ -21,6 +21,28 @@ importers:
         specifier: 5.6.3
         version: 5.6.3
 
+  packages/axios-agent:
+    dependencies:
+      axios:
+        specifier: ^1.12.2
+        version: 1.12.2
+      zod:
+        specifier: ^4.1.5
+        version: 4.1.8
+    devDependencies:
+      '@custom-repo/global-types':
+        specifier: workspace:*
+        version: link:../global-types
+      '@custom-repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+      '@types/node':
+        specifier: ^22.18.4
+        version: 22.18.4
+      typescript:
+        specifier: ^5.9.2
+        version: 5.9.2
+
   packages/dynamo:
     dependencies:
       '@aws-sdk/client-dynamodb':
@@ -29,13 +51,13 @@ importers:
       '@aws-sdk/lib-dynamodb':
         specifier: ^3.888.0
         version: 3.888.0(@aws-sdk/client-dynamodb@3.888.0)
+      '@custom-repo/libs':
+        specifier: workspace:*
+        version: link:../libs
       zod:
         specifier: ^4.1.5
         version: 4.1.8
     devDependencies:
-      '@custom-repo/global-libs':
-        specifier: workspace:*
-        version: link:../global-libs
       '@custom-repo/typescript-config':
         specifier: workspace:*
         version: link:../typescript-config
@@ -43,7 +65,17 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
-  packages/global-libs:
+  packages/global-types:
+    dependencies:
+      zod:
+        specifier: ^4.1.5
+        version: 4.1.8
+    devDependencies:
+      '@custom-repo/typescript-config':
+        specifier: workspace:*
+        version: link:../typescript-config
+
+  packages/libs:
     dependencies:
       '@aws-sdk/client-lambda':
         specifier: ^3.888.0
@@ -57,9 +89,6 @@ importers:
       '@middy/http-json-body-parser':
         specifier: ^4.7.0
         version: 4.7.0
-      axios:
-        specifier: ^1.12.2
-        version: 1.12.2
       winston:
         specifier: ^3.17.0
         version: 3.17.0
@@ -83,24 +112,14 @@ importers:
         specifier: ^5.9.2
         version: 5.9.2
 
-  packages/global-types:
-    dependencies:
-      zod:
-        specifier: ^4.1.5
-        version: 4.1.8
-    devDependencies:
-      '@custom-repo/typescript-config':
-        specifier: workspace:*
-        version: link:../typescript-config
-
   packages/typescript-config:
     devDependencies:
       '@typescript-eslint/eslint-plugin':
         specifier: ^8.18.1
-        version: 8.42.0(@typescript-eslint/parser@8.42.0(eslint@9.35.0)(typescript@5.6.3))(eslint@9.35.0)(typescript@5.6.3)
+        version: 8.42.0(@typescript-eslint/parser@8.42.0(eslint@9.35.0)(typescript@5.9.2))(eslint@9.35.0)(typescript@5.9.2)
       '@typescript-eslint/parser':
         specifier: ^8.18.1
-        version: 8.42.0(eslint@9.35.0)(typescript@5.6.3)
+        version: 8.42.0(eslint@9.35.0)(typescript@5.9.2)
       eslint-config-prettier:
         specifier: ^9.1.0
         version: 9.1.0(eslint@9.35.0)
@@ -120,12 +139,12 @@ importers:
         specifier: ^4.1.8
         version: 4.1.8
     devDependencies:
-      '@custom-repo/global-libs':
-        specifier: workspace:*
-        version: link:../../packages/global-libs
       '@custom-repo/global-types':
         specifier: workspace:*
         version: link:../../packages/global-types
+      '@custom-repo/libs':
+        specifier: workspace:*
+        version: link:../../packages/libs
       '@custom-repo/typescript-config':
         specifier: workspace:*
         version: link:../../packages/typescript-config
@@ -890,9 +909,6 @@ packages:
 
   '@types/node@22.18.4':
     resolution: {integrity: sha512-UJdblFqXymSBhmZf96BnbisoFIr8ooiiBRMolQgg77Ea+VM37jXw76C2LQr9n8wm9+i/OvlUlW6xSvqwzwqznw==}
-
-  '@types/node@24.5.0':
-    resolution: {integrity: sha512-y1dMvuvJspJiPSDZUQ+WMBvF7dpnEqN4x9DDC9ie5Fs/HUZJA3wFp7EhHoVaKX/iI0cRoECV8X2jL8zi0xrHCg==}
 
   '@types/triple-beam@1.3.5':
     resolution: {integrity: sha512-6WaYesThRMCl19iryMYP7/x2OVgCtbIVflDGFpWnb9irXI3UjYE4AzmYuiUKY1AJstGijoY+MgUszMgRxIYTYw==}
@@ -2072,9 +2088,6 @@ packages:
 
   undici-types@6.21.0:
     resolution: {integrity: sha512-iwDZqg0QAGrg9Rav5H4n0M64c3mkR59cJ6wQp+7C4nI0gsmExaedaYLNO44eT4AtBBwjbTiGPMlt2Md0T9H9JQ==}
-
-  undici-types@7.12.0:
-    resolution: {integrity: sha512-goOacqME2GYyOZZfb5Lgtu+1IDmAlAEu5xnD3+xTzS10hT0vzpf0SPjkXwAw9Jm+4n/mQGDP3LO8CPbYROeBfQ==}
 
   universalify@2.0.1:
     resolution: {integrity: sha512-gptHNQghINnc/vTGIk0SOFGFNXw7JVrlRUtConJRlvaw6DuX0wO5Jeko9sWrMBhh+PsYAZ7oXAiOnf/UKogyiw==}
@@ -3337,7 +3350,7 @@ snapshots:
   '@types/jsonwebtoken@9.0.10':
     dependencies:
       '@types/ms': 2.1.0
-      '@types/node': 24.5.0
+      '@types/node': 22.18.4
 
   '@types/ms@2.1.0': {}
 
@@ -3345,28 +3358,24 @@ snapshots:
     dependencies:
       undici-types: 6.21.0
 
-  '@types/node@24.5.0':
-    dependencies:
-      undici-types: 7.12.0
-
   '@types/triple-beam@1.3.5': {}
 
   '@types/uuid@9.0.8': {}
 
-  '@typescript-eslint/eslint-plugin@8.42.0(@typescript-eslint/parser@8.42.0(eslint@9.35.0)(typescript@5.6.3))(eslint@9.35.0)(typescript@5.6.3)':
+  '@typescript-eslint/eslint-plugin@8.42.0(@typescript-eslint/parser@8.42.0(eslint@9.35.0)(typescript@5.9.2))(eslint@9.35.0)(typescript@5.9.2)':
     dependencies:
       '@eslint-community/regexpp': 4.12.1
-      '@typescript-eslint/parser': 8.42.0(eslint@9.35.0)(typescript@5.6.3)
+      '@typescript-eslint/parser': 8.42.0(eslint@9.35.0)(typescript@5.9.2)
       '@typescript-eslint/scope-manager': 8.42.0
-      '@typescript-eslint/type-utils': 8.42.0(eslint@9.35.0)(typescript@5.6.3)
-      '@typescript-eslint/utils': 8.42.0(eslint@9.35.0)(typescript@5.6.3)
+      '@typescript-eslint/type-utils': 8.42.0(eslint@9.35.0)(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.42.0(eslint@9.35.0)(typescript@5.9.2)
       '@typescript-eslint/visitor-keys': 8.42.0
       eslint: 9.35.0
       graphemer: 1.4.0
       ignore: 7.0.5
       natural-compare: 1.4.0
-      ts-api-utils: 2.1.0(typescript@5.6.3)
-      typescript: 5.6.3
+      ts-api-utils: 2.1.0(typescript@5.9.2)
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -3387,15 +3396,15 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/parser@8.42.0(eslint@9.35.0)(typescript@5.6.3)':
+  '@typescript-eslint/parser@8.42.0(eslint@9.35.0)(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/scope-manager': 8.42.0
       '@typescript-eslint/types': 8.42.0
-      '@typescript-eslint/typescript-estree': 8.42.0(typescript@5.6.3)
+      '@typescript-eslint/typescript-estree': 8.42.0(typescript@5.9.2)
       '@typescript-eslint/visitor-keys': 8.42.0
       debug: 4.4.1
       eslint: 9.35.0
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -3411,12 +3420,12 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/project-service@8.42.0(typescript@5.6.3)':
+  '@typescript-eslint/project-service@8.42.0(typescript@5.9.2)':
     dependencies:
-      '@typescript-eslint/tsconfig-utils': 8.42.0(typescript@5.6.3)
+      '@typescript-eslint/tsconfig-utils': 8.42.0(typescript@5.9.2)
       '@typescript-eslint/types': 8.42.0
       debug: 4.4.1
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -3439,23 +3448,23 @@ snapshots:
       '@typescript-eslint/types': 8.44.0
       '@typescript-eslint/visitor-keys': 8.44.0
 
-  '@typescript-eslint/tsconfig-utils@8.42.0(typescript@5.6.3)':
+  '@typescript-eslint/tsconfig-utils@8.42.0(typescript@5.9.2)':
     dependencies:
-      typescript: 5.6.3
+      typescript: 5.9.2
 
   '@typescript-eslint/tsconfig-utils@8.44.0(typescript@5.9.2)':
     dependencies:
       typescript: 5.9.2
 
-  '@typescript-eslint/type-utils@8.42.0(eslint@9.35.0)(typescript@5.6.3)':
+  '@typescript-eslint/type-utils@8.42.0(eslint@9.35.0)(typescript@5.9.2)':
     dependencies:
       '@typescript-eslint/types': 8.42.0
-      '@typescript-eslint/typescript-estree': 8.42.0(typescript@5.6.3)
-      '@typescript-eslint/utils': 8.42.0(eslint@9.35.0)(typescript@5.6.3)
+      '@typescript-eslint/typescript-estree': 8.42.0(typescript@5.9.2)
+      '@typescript-eslint/utils': 8.42.0(eslint@9.35.0)(typescript@5.9.2)
       debug: 4.4.3
       eslint: 9.35.0
-      ts-api-utils: 2.1.0(typescript@5.6.3)
-      typescript: 5.6.3
+      ts-api-utils: 2.1.0(typescript@5.9.2)
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -3475,10 +3484,10 @@ snapshots:
 
   '@typescript-eslint/types@8.44.0': {}
 
-  '@typescript-eslint/typescript-estree@8.42.0(typescript@5.6.3)':
+  '@typescript-eslint/typescript-estree@8.42.0(typescript@5.9.2)':
     dependencies:
-      '@typescript-eslint/project-service': 8.42.0(typescript@5.6.3)
-      '@typescript-eslint/tsconfig-utils': 8.42.0(typescript@5.6.3)
+      '@typescript-eslint/project-service': 8.42.0(typescript@5.9.2)
+      '@typescript-eslint/tsconfig-utils': 8.42.0(typescript@5.9.2)
       '@typescript-eslint/types': 8.42.0
       '@typescript-eslint/visitor-keys': 8.42.0
       debug: 4.4.1
@@ -3486,8 +3495,8 @@ snapshots:
       is-glob: 4.0.3
       minimatch: 9.0.5
       semver: 7.7.2
-      ts-api-utils: 2.1.0(typescript@5.6.3)
-      typescript: 5.6.3
+      ts-api-utils: 2.1.0(typescript@5.9.2)
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -3507,14 +3516,14 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  '@typescript-eslint/utils@8.42.0(eslint@9.35.0)(typescript@5.6.3)':
+  '@typescript-eslint/utils@8.42.0(eslint@9.35.0)(typescript@5.9.2)':
     dependencies:
       '@eslint-community/eslint-utils': 4.9.0(eslint@9.35.0)
       '@typescript-eslint/scope-manager': 8.42.0
       '@typescript-eslint/types': 8.42.0
-      '@typescript-eslint/typescript-estree': 8.42.0(typescript@5.6.3)
+      '@typescript-eslint/typescript-estree': 8.42.0(typescript@5.9.2)
       eslint: 9.35.0
-      typescript: 5.6.3
+      typescript: 5.9.2
     transitivePeerDependencies:
       - supports-color
 
@@ -4532,10 +4541,6 @@ snapshots:
 
   triple-beam@1.4.1: {}
 
-  ts-api-utils@2.1.0(typescript@5.6.3):
-    dependencies:
-      typescript: 5.6.3
-
   ts-api-utils@2.1.0(typescript@5.9.2):
     dependencies:
       typescript: 5.9.2
@@ -4602,8 +4607,6 @@ snapshots:
   typescript@5.9.2: {}
 
   undici-types@6.21.0: {}
-
-  undici-types@7.12.0: {}
 
   universalify@2.0.1: {}
 

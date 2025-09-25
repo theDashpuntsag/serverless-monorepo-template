@@ -6,7 +6,7 @@ import {
   updateExampleItem
 } from '@/services/example';
 import { extractQueryParamsFromEvent, QueryRequestSchema } from '@custom-repo/dynamo';
-import { createHttpHandler, CustomError, extractMetadata } from '@custom-repo/global-libs';
+import { createHttpHandler, CustomError, extractMetadata } from '@custom-repo/libs';
 
 export const getExampleTableDesc = createHttpHandler<null>(async (_event) => {
   return await getExampleItemTableDesc();

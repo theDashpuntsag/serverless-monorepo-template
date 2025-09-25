@@ -1,5 +1,4 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
-import { logger } from './winston';
 
 export type CustomHeader = { Authorization: string; 'Content-Type': string };
 
@@ -82,7 +81,6 @@ async function sendRequest<Response = unknown, Request = Record<string, unknown>
     const response = await axios.request<Response, AxiosResponse<Response>, Request>(params);
     return response;
   } catch (error: unknown) {
-    logger.error(`Error occurred while invoking ${params.method?.toUpperCase()} request to ${params.url}`);
     throw error;
   }
 }

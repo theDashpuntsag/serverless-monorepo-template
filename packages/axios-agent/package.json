@@ -1,5 +1,5 @@
 {
-  "name": "@custom-repo/global-libs",
+  "name": "@custom-repo/axios-agent",
   "version": "0.0.0",
   "private": true,
   "scripts": {
@@ -10,18 +10,12 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
   },
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.888.0",
-    "@aws-sdk/client-ssm": "^3.888.0",
-    "@middy/core": "^4.7.0",
-    "@middy/http-json-body-parser": "^4.7.0",
-    "axios": "^1.12.2",
-    "winston": "^3.17.0"
+    "axios": "^1.12.2"
   },
   "devDependencies": {
     "@custom-repo/global-types": "workspace:*",
     "@custom-repo/typescript-config": "workspace:*",
-    "@types/aws-lambda": "^8.10.152",
-    "@types/jsonwebtoken": "^9.0.10",
+    "@types/node": "^22.18.4",
     "typescript": "^5.9.2"
   },
   "peerDependencies": {

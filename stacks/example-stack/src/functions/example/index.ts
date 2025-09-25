@@ -1,4 +1,4 @@
-import { createDefaultApiFunction } from '@custom-repo/global-libs';
+import { createDefaultApiFunction } from '@custom-repo/libs';
 
 export const API_EXAMPLE = {
   getExampleTableDesc: createDefaultApiFunction(__dirname, 'getExampleTableDesc', 'get', '/v1/example/table-desc'),

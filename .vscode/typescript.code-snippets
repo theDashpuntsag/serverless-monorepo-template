@@ -75,7 +75,7 @@
 
   "AWS Lambda Imports": {
     "prefix": "lambdaimp",
-    "body": ["import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/global-libs';"],
+    "body": ["import { createApiGatewayFunction, CustomError, extractMetadata } from '@custom-repo/libs';"],
     "description": "Import necessary modules for AWS Lambda"
   },
   "AWS Lambda Handler": {
@@ -158,7 +158,7 @@
     "body": [
       "import type { ${1:EntityName} } from '@/@types/';",
       "import { update${1:EntityName} as update${1:EntityName}Repo } from '@/repository/';",
-      "import { CustomError } from '@custom-repo/global-libs';",
+      "import { CustomError } from '@custom-repo/libs';",
       "import { get${1:EntityName}ById } from './';",
       "",
       "export async function update${1:EntityName}(id: string, update: object): Promise<${1:EntityName}> {",
@@ -179,7 +179,7 @@
       "\tQueryRequest as Query",
       "} from '@custom-repo/dynamo';",
       "import { createRecord, getRecordByKey, getTableDescription, queryRecords, updateRecord } from '@custom-repo/dynamo';",
-      "import { omit } from '@custom-repo/global-libs';",
+      "import { omit } from '@custom-repo/libs';",
       "",
       "",
       "export type Queried${1:ExampleItem}s = QueryOutput<Partial${1:ExampleItem}>",

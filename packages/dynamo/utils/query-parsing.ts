@@ -1,4 +1,4 @@
-import { CustomError, logger, ValidatedAPIGatewayProxyEvent } from '@custom-repo/global-libs';
+import { CustomError, logger, ValidatedAPIGatewayProxyEvent } from '@custom-repo/libs';
 import { QueryRequest, QueryRequestSchema } from '../types';
 
 type EventType = ValidatedAPIGatewayProxyEvent<object | null>;

@@ -5,7 +5,7 @@ import type {
   CustomQueryCommandOutput as QueryOutput
 } from '@custom-repo/dynamo';
 import { createRecord, getRecordByKey, getTableDescription, queryRecords, updateRecord } from '@custom-repo/dynamo';
-import { omit } from '@custom-repo/global-libs';
+import { omit } from '@custom-repo/libs';
 
 export type QueriedExampleItems = QueryOutput<PartialExampleItem>;
 export type PartialExampleItem = Partial<ExampleItem>;
