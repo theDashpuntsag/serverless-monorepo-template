@@ -1,6 +1,6 @@
 import type { PutCommandInput } from '@aws-sdk/lib-dynamodb';
-import { extractExpAttributeNamesFromString, replaceReservedKeywordsFromProjection } from '../utils';
 import { CustomPutCommandInput } from '../types';
+import { extractExpAttributeNamesFromString } from '../utils';
 
 /**
  * Constructs a valid `PutCommandInput` object for DynamoDB operations.
@@ -22,10 +22,9 @@ import { CustomPutCommandInput } from '../types';
  * ### Steps
  * 1. Extracts relevant fields from the input object.
  * 2. Builds the initial `commandInput` object with the table name, item, and optional parameters.
- * 3. Dynamically generates `ExpressionAttributeNames` by:
- *    - Extracting all keys from the item.
- *    - Replacing reserved keywords using `replaceReservedKeywordsFromProjection`.
- *    - Generating placeholders using `extractExpAttributeNamesFromString`.
+ * 3. Dynamically generates `ExpressionAttributeNames` only for attributes that are actually used in expressions:
+ *    - Extracts attribute placeholders from the `ConditionExpression` if provided.
+ *    - Generates placeholders using `extractExpAttributeNamesFromString`.
  * 4. Merges custom and generated `ExpressionAttributeNames`.
  * 5. Includes `ExpressionAttributeValues` if provided.
  * 6. Returns the final `PutCommandInput` object.
@@ -65,9 +64,7 @@ import { CustomPutCommandInput } from '../types';
  *   "ConditionExpression": "attribute_not_exists(#id)",
  *   "ReturnValues": "ALL_NEW",
  *   "ExpressionAttributeNames": {
- *     "#id": "id",
- *     "#name": "name",
- *     "#size": "size"
+ *     "#id": "id"
  *   },
  *   "ExpressionAttributeValues": {
  *     ":size": "large"
@@ -98,13 +95,17 @@ export function buildPutCommandInput<T>(input: CustomPutCommandInput<T>): PutCom
     ReturnItemCollectionMetrics
   };
 
-  // Generate `ExpressionAttributeNames` if `ConditionExpression` exists
-  const generatedNames = ConditionExpression
-    ? extractExpAttributeNamesFromString(replaceReservedKeywordsFromProjection(Object.keys(Item).join(', ')))
-    : {};
+  // Generate `ExpressionAttributeNames` only for attributes used in expressions
+  let generatedNames: Record<string, string> = {};
+
+  if (ConditionExpression) {
+    // Extract expression attribute names that are actually used in the condition expression
+    generatedNames = extractExpAttributeNamesFromString(ConditionExpression);
+  }
 
   // Merge provided and generated names if either exists
   const mergedNames = { ...generatedNames, ...providedNames };
+
   if (Object.keys(mergedNames).length > 0) {
     commandInput.ExpressionAttributeNames = mergedNames;
   }

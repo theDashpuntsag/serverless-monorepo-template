@@ -1,50 +1,55 @@
 import { GetCommandInput } from '@aws-sdk/lib-dynamodb';
-import { extractExpAttributeNamesFromString, replaceReservedKeywordsFromProjection } from '../utils';
 import { CustomGetCommandInput } from '../types';
+import { extractExpAttributeNamesFromString, replaceReservedKeywordsFromProjection } from '../utils';
 
 /**
- * Constructs a `GetCommandInput` object for DynamoDB based on the provided custom input.
- * @param input - An object of type `CustomGetCommandInput` containing the required parameters for the command.
- * @returns A `GetCommandInput` object configured with the provided input data.
- * @example
- * // Example: User provides a projectionExpression but no expressionAttributeNames
+ * Build a DynamoDB {@link GetCommandInput} from a higher-level input shape.
+ *
+ * Contract
+ * - Input: {@link CustomGetCommandInput} containing table name, key, and optional projection.
+ * - Output: A fully-formed `GetCommandInput` safe to pass to the AWS SDK.
+ * - Error: This function does not throw; let the caller handle AWS command errors.
+ *
+ * ### Process flow
+ * 1. Extracts relevant fields from the input object.
+ * 2. If `projectionExpression` is provided, it replaces reserved keywords and prepares the expression.
+ * 3. Builds the initial `GetCommandInput` object with table name, key, and optional parameters.
+ * 4. Combines `ExpressionAttributeNames` from:
+ *   - Extracted names from `ProjectionExpression`.
+ *   - Any additional names provided in `extraExpressionAttributeNames`.
+ * 5. Adds `ExpressionAttributeNames` to the command if any are present.
+ * 6. Returns the final `GetCommandInput` object.
+ *
+ *
+ * ### Notes
+ * - If `projectionExpression` is provided, reserved keywords are replaced and
+ *   `ExpressionAttributeNames` are composed automatically from the projection.
+ * - Any provided `expressionAttributeNames` are merged on top of the extracted ones.
+ *
+ * @param input - Parameters for building the Get command.
+ * @returns A configured `GetCommandInput`.
+ *
+ * @example With projection aliases
+ * ```ts
  * const input: CustomGetCommandInput = {
- *   tableName: "UsersTable", // Name of the DynamoDB table
- *   key: { userId: "123" }, // Key of the item to retrieve
- *   projectionExpression: "#name, #age", // Attributes to retrieve, using aliases
- *   consistentRead: true, // Use strongly consistent reads
- *   returnConsumedCapacity: "TOTAL", // Return the consumed capacity
- * };
- *
- * const commandInput = buildGetCommandInput(input);
- * // Function extracts attribute names dynamically from the projectionExpression:
- * // Returns:
- * // {
- * //   TableName: "UsersTable",
- * //   Key: { userId: "123" },
- * //   ProjectionExpression: "#name, #age",
- * //   ConsistentRead: true,
- * //   ReturnConsumedCapacity: "TOTAL",
- * //   ExpressionAttributeNames: { "#name": "name", "#age": "age" }, // Extracted automatically
- * // }
- *
- * // Example: User provides no expressionAttributeNames and no projectionExpression
- * const inputWithoutProjection: CustomGetCommandInput = {
- *   tableName: "UsersTable",
- *   key: { userId: "123" },
+ *   tableName: 'UsersTable',
+ *   key: { userId: '123' },
+ *   projectionExpression: '#name, #age',
  *   consistentRead: true,
- *   returnConsumedCapacity: "TOTAL",
+ *   returnConsumedCapacity: 'TOTAL',
  * };
+ * const commandInput = buildGetCommandInput(input);
+ * // commandInput.ExpressionAttributeNames includes { '#name': 'name', '#age': 'age' }
+ * ```
  *
- * const commandInputWithoutProjection = buildGetCommandInput(inputWithoutProjection);
- * // Returns:
- * // {
- * //   TableName: "UsersTable",
- * //   Key: { userId: "123" },
- * //   ConsistentRead: true,
- * //   ReturnConsumedCapacity: "TOTAL",
- * //   // No ExpressionAttributeNames or ProjectionExpression included
- * // }
+ * @example Without projection
+ * ```ts
+ * const commandInput = buildGetCommandInput({
+ *   tableName: 'UsersTable',
+ *   key: { userId: '123' },
+ * });
+ * // No ProjectionExpression or ExpressionAttributeNames are included
+ * ```
  */
 export function buildGetCommandInput(input: CustomGetCommandInput): GetCommandInput {
   const {
