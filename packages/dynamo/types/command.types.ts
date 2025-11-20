@@ -1,6 +1,6 @@
 import type { ReturnConsumedCapacity, ReturnItemCollectionMetrics, ReturnValue } from '@aws-sdk/client-dynamodb';
-import { QueryRequestSchema } from './query.types';
 import { z } from 'zod';
+import { QueryRequestSchema } from './query.types';
 
 const returnConsumedCapacitySchema = z.enum(['INDEXES', 'TOTAL', 'NONE']);
 const returnItemCollectionMetricsSchema = z.enum(['SIZE', 'NONE']);
