@@ -1,0 +1,16 @@
+{
+  "extends": "@custom-repo/ts-configs/base.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@/*": ["./src/*"]
+    },
+    "outDir": "dist",
+    "rootDir": ".",
+    "noEmit": false,
+    "declaration": true,
+    "declarationMap": true
+  },
+  "include": ["src/**/*", "serverless.ts"],
+  "exclude": ["dist", "node_modules"]
+}

@@ -1,0 +1,44 @@
+{
+  "name": "example",
+  "version": "1.0.0",
+  "description": "",
+  "main": "serverless.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "deploy": "./scripts/deploy.sh",
+    "dev": "serverless offline start --reloadHandler",
+    "format": "prettier --write \"src/**/*.ts\"",
+    "format:check": "prettier --check \"src/**/*.ts\"",
+    "lint": "eslint .",
+    "lint:fix": "eslint \"src/**/*.ts\" \"serverless.ts\" --fix",
+    "offline": "serverless offline start --reloadHandler",
+    "type-check": "tsc --noEmit"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.24.0",
+  "dependencies": {
+    "@aws-sdk/client-dynamodb": "^3.940.0",
+    "@aws-sdk/lib-dynamodb": "^3.940.0",
+    "@custom-repo/libs": "workspace:*",
+    "aws-lambda": "^1.0.7",
+    "dotenv": "^17.2.3",
+    "dynamo-command-builder": "^0.1.0",
+    "zod": "^4.1.13"
+  },
+  "devDependencies": {
+    "@custom-repo/ts-configs": "workspace:*",
+    "@eslint/js": "^9.39.1",
+    "@serverless/typescript": "^4.23.0",
+    "@types/aws-lambda": "^8.10.159",
+    "@types/node": "^24.10.1",
+    "eslint": "^9.39.1",
+    "globals": "^16.5.0",
+    "jiti": "^2.6.1",
+    "serverless": "^4.26.1",
+    "serverless-offline": "^14.4.0",
+    "serverless-prune-plugin": "^2.1.0",
+    "typescript-eslint": "^8.48.0"
+  }
+}

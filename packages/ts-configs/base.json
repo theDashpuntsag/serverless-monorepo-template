@@ -30,7 +30,7 @@
     "allowSyntheticDefaultImports": true,
     "isolatedModules": true,
     "preserveSymlinks": false,
-    "skipLibCheck": false
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "**/node_modules", "**/.serverless", "**/.webpack", "**/dist", "**/build"]
 }

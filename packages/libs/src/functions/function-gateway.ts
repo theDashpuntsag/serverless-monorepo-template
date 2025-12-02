@@ -21,5 +21,9 @@ export function createHttpHandler<S>(callback: (_event: ValidatedAPIGatewayProxy
     } catch (error: unknown) {
       return handleApiFuncError(error);
     }
-  }).use(middyJsonBodyParser());
+  }).use(
+    middyJsonBodyParser({
+      disableContentTypeError: true, // Don't throw error if Content-Type is missing or unsupported
+    })
+  );
 }
