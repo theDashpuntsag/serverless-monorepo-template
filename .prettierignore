@@ -1,0 +1,8 @@
+# Ignore artifacts:
+node_modules
+build
+dist
+scripts
+
+.husky
+.serverless
