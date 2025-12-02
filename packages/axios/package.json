@@ -1,0 +1,25 @@
+{
+  "name": "@custom-repo/axios",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.ts",
+  "scripts": {
+    "build": "tsc --build",
+    "clean": "rm -rf ./dist ./tsconfig.tsbuildinfo",
+    "type-check": "tsc --noEmit",
+    "format": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:fix": "prettier --write \"**/*.{ts,tsx,md,json}\"",
+    "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.24.0",
+  "devDependencies": {
+    "@custom-repo/ts-configs": "workspace:*",
+    "@types/node": "^24.10.1"
+  },
+  "dependencies": {
+    "axios": "^1.13.2"
+  }
+}

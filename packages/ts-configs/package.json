@@ -1,0 +1,15 @@
+{
+  "name": "@custom-repo/ts-configs",
+  "version": "1.0.0",
+  "private": true,
+  "description": "A global TypeScript configuration package for the monorepo",
+  "main": "index.ts",
+  "scripts": {
+    "build": "echo 'No build needed for typescript-config'",
+    "clean": "echo 'No clean needed for typescript-config'"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "packageManager": "pnpm@10.24.0"
+}
