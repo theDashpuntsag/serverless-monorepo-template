@@ -4,6 +4,7 @@
   "description": "",
   "main": "src/index.ts",
   "types": "src/index.ts",
+  "private": true,
   "scripts": {
     "build": "tsc --build",
     "clean": "rm -rf ./dist ./tsconfig.tsbuildinfo",
@@ -13,7 +14,7 @@
     "format:check": "prettier --check \"**/*.{ts,tsx,md,json}\""
   },
   "keywords": [],
-  "author": "",
+  "author": "thedashpuntsag",
   "license": "ISC",
   "packageManager": "pnpm@10.24.0",
   "dependencies": {
