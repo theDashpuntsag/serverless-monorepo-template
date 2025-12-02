@@ -37,6 +37,7 @@ export function handleApiFuncError(error: unknown): APIGatewayProxyResultV2 {
   if (error instanceof Error) logger.error(`Error occurred!: ${JSON.stringify(error.message)}`);
   if (error instanceof CustomError) return formatApiResponse({ message: error.message }, error.statusCode);
   if (error instanceof ZodError) return handleZodError(error);
+  if (error instanceof Error) return formatApiResponse({ message: error.message }, 500);
   return formatApiResponse({ message: 'Unexpected error occurred' }, 500);
 }
 
@@ -50,6 +51,7 @@ export function handleDefaultError(error: unknown): LbdFuncResponse {
   if (error instanceof Error) logger.error(`Error occurred!: ${JSON.stringify(error.message)}`);
   if (error instanceof CustomError) return formatResponse({ message: error.message }, error.statusCode);
   if (error instanceof ZodError) return handleZodFuncError(error);
+  if (error instanceof Error) return formatResponse({ message: error.message }, 500);
   return formatResponse({ message: 'Unexpected error occurred' }, 500);
 }
 

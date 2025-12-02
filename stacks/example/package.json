@@ -5,6 +5,7 @@
   "main": "serverless.ts",
   "scripts": {
     "build": "tsc --build",
+    "clean": "rm -rf ./dist ./tsconfig.tsbuildinfo",
     "deploy": "./scripts/deploy.sh",
     "dev": "serverless offline start --reloadHandler",
     "format": "prettier --write \"src/**/*.ts\"",
