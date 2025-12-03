@@ -2,8 +2,7 @@ import type { APIGatewayProxyResultV2 } from 'aws-lambda';
 
 import { LbdFuncResponse } from '@custom-repo/schemas';
 import { ZodError } from 'zod';
-import { logger } from '../utility';
-import { formatApiResponse, formatResponse } from '../utility/response-format';
+import { formatApiResponse, formatResponse, logger } from '../utility';
 import CustomError from './custom-error';
 
 /**
@@ -13,6 +12,8 @@ import CustomError from './custom-error';
  * @returns
  */
 export function logErrorMessage(error: unknown, func: string = 'Error'): void {
+  logger.error(`Error occurred with type: ${typeof error}`);
+
   if (error instanceof CustomError) {
     logger.error(`Custom error ${func}: ${error.message}`);
     return;
