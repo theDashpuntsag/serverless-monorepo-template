@@ -76,7 +76,7 @@ async function createExampleItem(newItem: ExampleItem): Promise<ExampleItem> {
   const { Attributes } = await createRecordOnDynamo({
     tableName: TABLE_NAME,
     item: newItem,
-    returnValues: 'ALL_NEW',
+    conditionExpression: 'attribute_not_exists(id)',
   });
   return exampleItemSch.parse(Attributes);
 }
