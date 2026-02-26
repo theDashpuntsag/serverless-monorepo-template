@@ -15,10 +15,10 @@ export type QueryOutput<T> = { items: T[]; lastEvaluatedKey?: Record<string, unk
 export type QueriedExampleItems = QueryOutput<PrtExampleItem>;
 export type PrtExampleItem = Partial<ExampleItem>;
 export type OptPartialExampleItem = Partial<ExampleItem> | undefined;
-export type OptionalExampleItem = ExampleItem | undefined;
-type ExtraType = Record<string, unknown>;
+export type OptExampleItem = ExampleItem | undefined;
+type GenericRecord = Record<string, unknown>;
 
-const TABLE_NAME = 'example-item-table';
+const TABLE_NAME = 'example-table';
 
 /**
  * Retrieves the description of the ExampleItem table from DynamoDB.
@@ -89,7 +89,11 @@ async function createExampleItem(newItem: ExampleItem): Promise<ExampleItem> {
  * @param ext - Optional extra expression attribute values for the update operation.
  * @returns The updated ExampleItem.
  */
-async function updateExampleItemDirectly(item: PrtExampleItem, con?: string, ext?: ExtraType): Promise<PrtExampleItem> {
+async function updateExampleItemDirectly(
+  item: PrtExampleItem,
+  con?: string,
+  ext?: GenericRecord
+): Promise<PrtExampleItem> {
   await updateRecordOnDynamo({
     tableName: TABLE_NAME,
     key: { id: item.id },
@@ -113,7 +117,7 @@ async function updateExampleItemByExpression(
   id: string,
   updateExp: string,
   con?: string,
-  ext?: ExtraType
+  ext?: GenericRecord
 ): Promise<void> {
   await updateRecordOnDynamo({
     tableName: TABLE_NAME,

@@ -5,6 +5,12 @@ import { handleApiFuncError } from '../error';
 import { formatApiResponse, ValidatedAPIGatewayProxyEvent } from '../utility';
 
 /**
+ * Type definition for HTTP handlers created by createHttpHandler.
+ * Use this to annotate your handler exports to avoid TypeScript portability issues.
+ */
+export type HttpHandler<S> = ReturnType<typeof createHttpHandler<S>>;
+
+/**
  * Creates an HTTP handler function with middleware support by middy.
  *
  * ### Note:

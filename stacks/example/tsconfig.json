@@ -11,6 +11,6 @@
     "declaration": true,
     "declarationMap": true
   },
-  "include": ["src/**/*", "serverless.ts"],
-  "exclude": ["dist", "node_modules"]
+  "include": ["src/**/*", "test/**/*", "serverless.ts", "**/*.mts", "eslint.config.mts", "vitest.config.ts"],
+  "exclude": ["dist", "node_modules", ".serverless", "coverage"]
 }

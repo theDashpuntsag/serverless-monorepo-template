@@ -20,26 +20,26 @@
   "license": "ISC",
   "packageManager": "pnpm@10.24.0",
   "dependencies": {
-    "@aws-sdk/client-dynamodb": "^3.971.0",
-    "@aws-sdk/lib-dynamodb": "^3.971.0",
+    "@aws-sdk/client-dynamodb": "^3.998.0",
+    "@aws-sdk/lib-dynamodb": "^3.998.0",
     "@custom-repo/libs": "workspace:*",
     "aws-lambda": "^1.0.7",
-    "dotenv": "^17.2.3",
-    "dynamo-command-builder": "^0.1.7",
-    "zod": "^4.3.5"
+    "dotenv": "^17.3.1",
+    "dynamo-command-builder": "^0.2.2",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@custom-repo/ts-configs": "workspace:*",
-    "@eslint/js": "^9.39.2",
+    "@eslint/js": "^9.39.3",
     "@serverless/typescript": "^4.30.0",
-    "@types/aws-lambda": "^8.10.159",
-    "@types/node": "^24.10.9",
-    "eslint": "^9.39.2",
+    "@types/aws-lambda": "^8.10.160",
+    "@types/node": "^24.10.14",
+    "eslint": "^9.39.3",
     "globals": "^16.5.0",
     "jiti": "^2.6.1",
-    "serverless": "^4.31.0",
-    "serverless-offline": "^14.4.0",
+    "serverless": "^4.33.0",
+    "serverless-offline": "^14.5.0",
     "serverless-prune-plugin": "^2.1.0",
-    "typescript-eslint": "^8.53.0"
+    "typescript-eslint": "^8.56.1"
   }
 }

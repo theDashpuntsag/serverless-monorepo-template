@@ -5,20 +5,20 @@ import {
   getExampleItemTableDesc as getExampleTableDescription,
   updateExampleItem,
 } from '@/services/example';
-import { createHttpHandler, CustomError, extractMetadataFromEvent } from '@custom-repo/libs';
+import { createHttpHandler, CustomError, extractMetadataFromEvent, type HttpHandler } from '@custom-repo/libs';
 import { extractQueryReqFromParams } from 'dynamo-command-builder';
 
 /**
  *  Get example table description
  */
-export const getExampleTableDesc = createHttpHandler<null>(async (_event) => {
+export const getExampleTableDesc: HttpHandler<null> = createHttpHandler<null>(async (_event) => {
   return await getExampleTableDescription();
 });
 
 /**
  *  Get example item by ID
  */
-export const getExampleItemById = createHttpHandler<null>(async (event) => {
+export const getExampleItemById: HttpHandler<null> = createHttpHandler<null>(async (event) => {
   if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
   const { id } = event.pathParameters;
   const response = await getExampleItemByIdService(id);
@@ -29,7 +29,7 @@ export const getExampleItemById = createHttpHandler<null>(async (event) => {
 /**
  *  Get example items by query
  */
-export const getExampleItemsByQuery = createHttpHandler<object>(async (event) => {
+export const getExampleItemsByQuery: HttpHandler<object> = createHttpHandler<object>(async (event) => {
   const { queryParams } = extractMetadataFromEvent(event);
   if (!queryParams) throw new CustomError('Query params are missing!');
 
@@ -38,6 +38,7 @@ export const getExampleItemsByQuery = createHttpHandler<object>(async (event) =>
     pKey: `EXECUTED`,
     pKeyType: 'S',
     pKeyProp: 'status',
+    limit: 20,
     ...queryParams,
   });
 
@@ -47,7 +48,7 @@ export const getExampleItemsByQuery = createHttpHandler<object>(async (event) =>
 /**
  *  Create a new example item
  */
-export const postCreateExampleItem = createHttpHandler<object>(async (event) => {
+export const postCreateExampleItem: HttpHandler<object> = createHttpHandler<object>(async (event) => {
   const { body } = extractMetadataFromEvent(event);
   if (!body) throw new CustomError('Request body is missing');
   return await createExampleItem(body);
@@ -56,7 +57,7 @@ export const postCreateExampleItem = createHttpHandler<object>(async (event) => 
 /**
  *  Update an existing example item
  */
-export const putUpdateExampleItem = createHttpHandler<object>(async (event) => {
+export const putUpdateExampleItem: HttpHandler<object> = createHttpHandler<object>(async (event) => {
   if (!event.pathParameters || !event.pathParameters.id) throw new CustomError(`Path variable is missing`);
   const { body } = extractMetadataFromEvent(event);
   if (!body) throw new CustomError('Request body is missing');

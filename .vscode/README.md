@@ -235,7 +235,7 @@ const items = [1, 2, 3];
 ```typescript
 const config = {
   apiUrl: 'https://api.example.com', // ^: string
-  timeout: 5000 // ^: number
+  timeout: 5000, // ^: number
 };
 ```
 
