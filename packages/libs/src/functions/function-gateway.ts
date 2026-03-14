@@ -1,4 +1,4 @@
-import middy from '@middy/core';
+import middy, { MiddlewareObj, MiddyfiedHandler } from '@middy/core';
 import middyJsonBodyParser from '@middy/http-json-body-parser';
 import type { APIGatewayProxyResultV2 } from 'aws-lambda';
 import { handleApiFuncError } from '../error';
@@ -19,7 +19,13 @@ export type HttpHandler<S> = ReturnType<typeof createHttpHandler<S>>;
  * @param callback - The main handler function to process the event.
  * @returns {MiddyfiedHandler<ValidatedAPIGatewayProxyEvent<S>>} A middy-wrapped handler function that processes API Gateway events.
  */
-export function createHttpHandler<S>(callback: (_event: ValidatedAPIGatewayProxyEvent<S>) => Promise<object>) {
+export function createHttpHandler<S>(
+  callback: (_event: ValidatedAPIGatewayProxyEvent<S>) => Promise<object>
+): MiddyfiedHandler<ValidatedAPIGatewayProxyEvent<S>> {
+  const jsonBodyParserMiddleware = middyJsonBodyParser({
+    disableContentTypeError: true, // Don't throw error if Content-Type is missing or unsupported
+  }) as MiddlewareObj<ValidatedAPIGatewayProxyEvent<S>, APIGatewayProxyResultV2>;
+
   return middy(async (event: ValidatedAPIGatewayProxyEvent<S>): Promise<APIGatewayProxyResultV2> => {
     try {
       const result = await callback(event);
@@ -27,9 +33,5 @@ export function createHttpHandler<S>(callback: (_event: ValidatedAPIGatewayProxy
     } catch (error: unknown) {
       return handleApiFuncError(error);
     }
-  }).use(
-    middyJsonBodyParser({
-      disableContentTypeError: true, // Don't throw error if Content-Type is missing or unsupported
-    })
-  );
+  }).use(jsonBodyParserMiddleware);
 }
