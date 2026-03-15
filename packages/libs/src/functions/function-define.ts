@@ -26,6 +26,20 @@ export function createDefaultFunction(params: FuncParams) {
 }
 
 /**
+ * Creates a factory bound to a specific directory, so `dir` doesn't need to
+ * be repeated on every `createDefaultFunction` call in the same file.
+ *
+ * @example
+ * const defineFunction = createFunctionFactory(__dirname);
+ * export const MY_FUNCS = {
+ *   myHandler: defineFunction({ fnName: 'myHandler' }),
+ * };
+ */
+export function createFunctionFactory(dir: string) {
+  return (params: Omit<FuncParams, 'dir'>) => createDefaultFunction({ ...params, dir });
+}
+
+/**
  * Returns a default API Lambda function configuration with HTTP event.
  *
  * @param dir - Directory path containing the handler
@@ -36,7 +50,7 @@ export function createDefaultFunction(params: FuncParams) {
  */
 export function createDefaultApiFunction(params: ApiFuncParams) {
   const { dir, fnName: fn, http, other } = params;
-  const { method, url, more } = http;
+  const { method, path: url, more } = http;
 
   return {
     handler: `${generatePathname(dir)}/handler.${fn}`,
@@ -51,4 +65,18 @@ export function createDefaultApiFunction(params: ApiFuncParams) {
     ],
     ...(other ?? {}),
   };
+}
+
+/**
+ * Creates a factory bound to a specific directory, so `dir` doesn't need to
+ * be repeated on every `createDefaultApiFunction` call in the same file.
+ *
+ * @example
+ * const defineApi = createApiFunctionFactory(__dirname);
+ * export const APIS_EXAMPLE = {
+ *   getItem: defineApi({ fnName: 'getItem', http: { method: 'GET', url: '/v1/item/{id}' } }),
+ * };
+ */
+export function createApiFunctionFactory(dir: string) {
+  return (params: Omit<ApiFuncParams, 'dir'>) => createDefaultApiFunction({ ...params, dir });
 }

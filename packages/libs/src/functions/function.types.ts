@@ -9,7 +9,7 @@ export type ApiFuncParams = {
   fnName: string;
   http: {
     method: string;
-    url: string;
+    path: string;
     more?: Record<string, unknown>;
   };
   other?: Record<string, unknown>;
