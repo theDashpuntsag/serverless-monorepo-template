@@ -1,38 +1,41 @@
-import { createApiFunctionFactory } from '@custom-repo/libs';
-
-const defineApi = createApiFunctionFactory(__dirname);
+import { createDefaultApiFunc } from '@custom-repo/libs';
 
 export const APIS_EXAMPLE = {
-  getExampleTableDesc: defineApi({
-    fnName: 'getExampleTableDesc',
+  getExampleTableDesc: createDefaultApiFunc({
+    directory: __dirname,
+    handlerFn: 'getExampleTableDesc',
     http: {
       method: 'GET',
       path: '/v1/example/table-desc',
     },
   }),
-  getExampleItemById: defineApi({
-    fnName: 'getExampleItemById',
+  getExampleItemById: createDefaultApiFunc({
+    directory: __dirname,
+    handlerFn: 'getExampleItemById',
     http: {
       method: 'GET',
       path: '/v1/example/item/{id}',
     },
   }),
-  getExampleItemsByQuery: defineApi({
-    fnName: 'getExampleItemsByQuery',
+  getExampleItemsByQuery: createDefaultApiFunc({
+    directory: __dirname,
+    handlerFn: 'getExampleItemsByQuery',
     http: {
       method: 'GET',
       path: '/v1/example/items',
     },
   }),
-  postCreateExampleItem: defineApi({
-    fnName: 'postCreateExampleItem',
+  postCreateExampleItem: createDefaultApiFunc({
+    directory: __dirname,
+    handlerFn: 'postCreateExampleItem',
     http: {
       method: 'POST',
       path: '/api/v1/example/item',
     },
   }),
-  putUpdateExampleItem: defineApi({
-    fnName: 'putUpdateExampleItem',
+  putUpdateExampleItem: createDefaultApiFunc({
+    directory: __dirname,
+    handlerFn: 'putUpdateExampleItem',
     http: {
       method: 'PUT',
       path: '/api/v1/example/item',

@@ -1,4 +1,5 @@
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { parseAxiosError } from './error';
 
 /**
  * Sends an HTTP request using Axios and returns the response.
@@ -54,6 +55,6 @@ export async function sendRequest<Response = unknown, Request = Record<string, u
     return response;
   } catch (error: unknown) {
     console.error(`Error occurred while invoking ${params.method?.toUpperCase()} request to ${params.url}`);
-    throw error;
+    parseAxiosError(error);
   }
 }

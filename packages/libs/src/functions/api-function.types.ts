@@ -5,11 +5,10 @@ import { z } from 'zod';
 export type ValidatedAPIGatewayProxyEvent<S> = Omit<APIGatewayProxyEvent, 'body'> & { body: S };
 export type CustomAPIGatewayHandler<S> = Handler<ValidatedAPIGatewayProxyEvent<S>, APIGatewayProxyResultV2>;
 
-export const QueryParamsSchema = z.record(z.string(), z.unknown());
+export const queryParamsSch = z.record(z.string(), z.unknown());
+export type QueryParams = z.infer<typeof queryParamsSch>;
 
-export type QueryParams = z.infer<typeof QueryParamsSchema>;
-
-export const CognitoIdTokenSchema = z.object({
+export const extractedCognitoTokenSch = z.object({
   sub: z.string(),
   email_verified: z.boolean(),
   iss: z.string(),
@@ -25,4 +24,4 @@ export const CognitoIdTokenSchema = z.object({
   email: z.string(),
 });
 
-export type CognitoIdToken = z.infer<typeof CognitoIdTokenSchema>;
+export type ExtractedCognitoToken = z.infer<typeof extractedCognitoTokenSch>;

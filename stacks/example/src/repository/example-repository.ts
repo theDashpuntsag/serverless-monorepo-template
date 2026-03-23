@@ -1,7 +1,7 @@
 import type { ExampleItem } from '@/types';
 import { exampleItemSch } from '@/types';
 import { DescribeTableCommandOutput } from '@aws-sdk/client-dynamodb';
-import { omit } from '@custom-repo/libs';
+import { getRequiredEnvVar, omit } from '@custom-repo/libs';
 import { DynamoQueryRequest } from 'dynamo-command-builder';
 import {
   createRecordOnDynamo,
@@ -18,8 +18,7 @@ export type OptPartialExampleItem = Partial<ExampleItem> | undefined;
 export type OptExampleItem = ExampleItem | undefined;
 type GenericRecord = Record<string, unknown>;
 
-const TABLE_NAME = 'example-table';
-
+const TABLE_NAME = getRequiredEnvVar('EXAMPLE_TABLE_NAME');
 /**
  * Retrieves the description of the ExampleItem table from DynamoDB.
  * @returns The description of the ExampleItem table.

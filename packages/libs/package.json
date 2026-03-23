@@ -20,12 +20,14 @@
   "dependencies": {
     "@middy/core": "^6.4.5",
     "@middy/http-json-body-parser": "^6.4.5",
+    "jsonwebtoken": "^9.0.3",
     "winston": "^3.18.3"
   },
   "devDependencies": {
-    "@types/aws-lambda": "^8.10.159",
     "@custom-repo/schemas": "workspace:*",
     "@custom-repo/ts-configs": "workspace:*",
+    "@types/aws-lambda": "^8.10.159",
+    "@types/jsonwebtoken": "^9.0.10",
     "@types/node": "^24.10.1"
   },
   "peerDependencies": {

@@ -2,6 +2,8 @@ import type { AWS } from '@serverless/typescript';
 import 'dotenv/config';
 import { APIS_EXAMPLE } from './src/functions/api/example';
 
+const EXAMPLE_TABLE_NAME = '${self:service}-${sls:stage}-example-table';
+
 const serverlessConfig: AWS = {
   service: 'service-name',
   frameworkVersion: '4',
@@ -30,11 +32,40 @@ const serverlessConfig: AWS = {
       },
     },
     logRetentionInDays: 365,
-    environment: {},
+    environment: {
+      EXAMPLE_TABLE_NAME,
+    },
     iam: { role: process.env.AWS_IAM_ROLE! },
   },
   functions: {
     ...APIS_EXAMPLE,
+  },
+  resources: {
+    Resources: {
+      ExampleTable: {
+        Type: 'AWS::DynamoDB::Table',
+        Properties: {
+          TableName: EXAMPLE_TABLE_NAME,
+          BillingMode: 'ON_DEMAND',
+          AttributeDefinitions: [
+            { AttributeName: 'id', AttributeType: 'S' },
+            { AttributeName: 'status', AttributeType: 'S' },
+            { AttributeName: 'createdAt', AttributeType: 'N' },
+          ],
+          KeySchema: [{ AttributeName: 'id', KeyType: 'HASH' }],
+          GlobalSecondaryIndexes: [
+            {
+              IndexName: 'status-createdAt-index',
+              KeySchema: [
+                { AttributeName: 'status', KeyType: 'HASH' },
+                { AttributeName: 'createdAt', KeyType: 'RANGE' },
+              ],
+              Projection: { ProjectionType: 'ALL' },
+            },
+          ],
+        },
+      },
+    },
   },
   package: { individually: true },
   custom: { prune: { automatic: true, number: 2 } },

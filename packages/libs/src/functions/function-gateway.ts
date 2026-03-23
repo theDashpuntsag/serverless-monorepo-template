@@ -2,7 +2,8 @@ import middy, { MiddlewareObj, MiddyfiedHandler } from '@middy/core';
 import middyJsonBodyParser from '@middy/http-json-body-parser';
 import type { APIGatewayProxyResultV2 } from 'aws-lambda';
 import { handleApiFuncError } from '../error';
-import { formatApiResponse, ValidatedAPIGatewayProxyEvent } from '../utility';
+import { formatApiResponse } from '../utility';
+import { ValidatedAPIGatewayProxyEvent } from './api-function.types';
 
 /**
  * Type definition for HTTP handlers created by createHttpHandler.
