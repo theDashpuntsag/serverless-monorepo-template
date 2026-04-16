@@ -35,7 +35,7 @@ export async function getTableDescFromDynamo(tableName: string): Promise<Describ
   try {
     return await docClient.send(new DescribeTableCommand({ TableName: tableName }));
   } catch (error) {
-    logger.error(`Failed to retrieve table description for "tableName":`, error);
+    logger.error(`Failed to retrieve table description for ${tableName}, error ${JSON.stringify(error)}`);
     throw error;
   }
 }
@@ -52,7 +52,7 @@ export async function getRecordFromDynamo(input: CustomGetCommandInput): Promise
     const buildCommand = buildGetCommandInput(input);
     return await docClient.send(new GetCommand(buildCommand));
   } catch (error: unknown) {
-    logger.error('Error retrieving record from DynamoDB:', error);
+    logger.error(`Error retrieving record from table ${input.tableName}, DynamoDB: ${JSON.stringify(error)}`);
     throw error;
   }
 }
@@ -69,7 +69,7 @@ export async function queryRecordFromDynamo(input: CustomQueryCommandInput): Pro
     const buildCommand = buildQueryCommandInput(input);
     return await docClient.send(new QueryCommand(buildCommand));
   } catch (error: unknown) {
-    logger.error('Error querying records from DynamoDB:', error);
+    logger.error(`Error querying records from table ${input.tableName}, DynamoDB: ${JSON.stringify(error)}`);
     throw error;
   }
 }
@@ -86,7 +86,7 @@ export async function createRecordOnDynamo(input: CustomPutCommandInput): Promis
     const buildCommand = buildPutCommandInput(input);
     return await docClient.send(new PutCommand(buildCommand));
   } catch (error: unknown) {
-    logger.error('Error creating record in DynamoDB:', error);
+    logger.error(`Error creating record in table ${input.tableName}, DynamoDB: ${JSON.stringify(error)}`);
     throw error;
   }
 }
@@ -104,7 +104,7 @@ export async function updateRecordOnDynamo(input: CustomUpdateCommandInput): Pro
     const updateCommand = buildUpdateCommandInput(input);
     return await docClient.send(new UpdateCommand(updateCommand));
   } catch (error: unknown) {
-    logger.error('Error updating record in DynamoDB:', error);
+    logger.error(`Error updating record in table ${input.tableName}, DynamoDB: ${JSON.stringify(error)}`);
     throw error;
   }
 }

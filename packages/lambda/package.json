@@ -18,12 +18,12 @@
   "license": "ISC",
   "packageManager": "pnpm@10.24.0",
   "dependencies": {
-    "@aws-sdk/client-lambda": "^3.942.0",
-    "zod": "^4.1.13"
+    "@aws-sdk/client-lambda": "^3.1030.0",
+    "zod": "^4.3.6"
   },
   "devDependencies": {
     "@custom-repo/schemas": "workspace:*",
     "@custom-repo/ts-configs": "workspace:*",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.12.2"
   }
 }

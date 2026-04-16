@@ -5,9 +5,9 @@ import {
   getExampleItemTableDesc as getExampleTableDescription,
   updateExampleItem,
 } from '@/services/example';
+import { exampleItemSch } from '@/types';
 import { createHttpHandler, CustomError, extractMetadataFromEvent } from '@custom-repo/libs';
 import { extractQueryReqFromParams } from 'dynamo-command-builder';
-import { exampleItemSch } from '../../../types';
 
 /**
  *  Get example table description

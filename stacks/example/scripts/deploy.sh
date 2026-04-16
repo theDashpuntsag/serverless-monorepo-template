@@ -57,12 +57,12 @@ fi
 log "${GREEN}Project linted successfully.${NC}"
 
 # 3.1 Test the project before deployment
-# echo -e "${YELLOW}Testing project before deployment...${NC}"
+# log "${YELLOW}Testing project before deployment...${NC}"
 # if ! pnpm run test; then
-#     echo -e "${RED}Error: Failed to test project.${NC}"
+#     log "${RED}Error: Failed to test project.${NC}"
 #     exit 1
 # fi
-# echo -e "${GREEN}Project tested successfully.${NC}"
+# log "${GREEN}Project tested successfully.${NC}"
 
 
 # 5. Run through /src/repository directory and read all the table names

@@ -19,9 +19,9 @@
   "packageManager": "pnpm@10.24.0",
   "devDependencies": {
     "@custom-repo/ts-configs": "workspace:*",
-    "@types/node": "^24.10.1"
+    "@types/node": "^24.12.2"
   },
   "dependencies": {
-    "axios": "^1.13.2"
+    "axios": "^1.15.0"
   }
 }
