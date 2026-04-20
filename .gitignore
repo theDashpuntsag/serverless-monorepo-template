@@ -13,8 +13,11 @@ coverage
 out/
 build
 .swc/
+.serverless/
+.build/
+dist
+**/**/tsconfig.tsbuildinfo
 
-packages/**/tsconfig.tsbuildinfo
 # misc
 .DS_Store
 *.pem

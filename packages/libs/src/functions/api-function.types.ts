@@ -13,14 +13,14 @@ export const extractedCognitoTokenSch = z.object({
   email_verified: z.boolean(),
   iss: z.string(),
   'cognito:username': z.string(),
-  origin_jti: z.string(),
+  origin_jti: z.string().optional(),
   aud: z.string(),
   event_id: z.string(),
   token_use: z.string(),
   auth_time: z.number(),
   exp: z.number(),
   iat: z.number(),
-  jti: z.string(),
+  jti: z.string().optional(),
   email: z.string(),
 });
 
