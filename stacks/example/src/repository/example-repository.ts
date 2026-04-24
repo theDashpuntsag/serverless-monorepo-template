@@ -1,8 +1,8 @@
 import type { ExampleItem } from '@/types';
 import { exampleItemSch } from '@/types';
 import { DescribeTableCommandOutput } from '@aws-sdk/client-dynamodb';
-import { getRequiredEnvVar, omit } from '@custom-repo/libs';
-import { DynamoQueryRequest } from 'dynamo-command-builder';
+import { getRequiredEnvVar } from '@custom-repo/libs';
+import { DynamoQueryRequest, omit } from 'dynamo-command-builder';
 import {
   createRecordOnDynamo,
   getRecordFromDynamo,
@@ -14,11 +14,12 @@ import {
 export type QueryOutput<T> = { items: T[]; lastEvaluatedKey?: Record<string, unknown> };
 export type QueriedExampleItems = QueryOutput<PrtExampleItem>;
 export type PrtExampleItem = Partial<ExampleItem>;
-export type OptPartialExampleItem = Partial<ExampleItem> | undefined;
+export type OptPrtExampleItem = Partial<ExampleItem> | undefined;
 export type OptExampleItem = ExampleItem | undefined;
 type GenericRecord = Record<string, unknown>;
 
 const TABLE_NAME = getRequiredEnvVar('EXAMPLE_TABLE_NAME');
+
 /**
  * Retrieves the description of the ExampleItem table from DynamoDB.
  * @returns The description of the ExampleItem table.
@@ -34,7 +35,7 @@ async function getExampleItemTableDescription(): Promise<DescribeTableCommandOut
  * @param proj - Optional projection expression to specify which attributes to retrieve.
  * @returns The ExampleItem if found, otherwise undefined.
  */
-async function getExampleItemById(id: string, proj?: string): Promise<OptPartialExampleItem> {
+async function getExampleItemById(id: string, proj?: string): Promise<OptPrtExampleItem> {
   const params = {
     tableName: TABLE_NAME,
     key: { id },
@@ -42,7 +43,7 @@ async function getExampleItemById(id: string, proj?: string): Promise<OptPartial
   };
 
   const { Item } = await getRecordFromDynamo(params);
-  return Item ? (Item as ExampleItem | Partial<ExampleItem>) : undefined;
+  return Item ? (Item as PrtExampleItem) : undefined;
 }
 
 /**
@@ -60,7 +61,7 @@ async function getExampleItemsByQuery(query: DynamoQueryRequest, proj?: string):
   });
 
   return {
-    items: Items ? (Items as ExampleItem[] | Partial<ExampleItem>[]) : [],
+    items: Items ? (Items as PrtExampleItem[]) : [],
     lastEvaluatedKey: LastEvaluatedKey ?? {},
   };
 }
@@ -72,12 +73,12 @@ async function getExampleItemsByQuery(query: DynamoQueryRequest, proj?: string):
  * @returns The created ExampleItem with all attributes as stored in DynamoDB.
  */
 async function createExampleItem(newItem: ExampleItem): Promise<ExampleItem> {
-  const { Attributes } = await createRecordOnDynamo({
+  await createRecordOnDynamo({
     tableName: TABLE_NAME,
     item: newItem,
     conditionExpression: 'attribute_not_exists(id)',
   });
-  return exampleItemSch.parse(Attributes);
+  return exampleItemSch.parse(newItem);
 }
 
 /**
@@ -117,15 +118,16 @@ async function updateExampleItemByExpression(
   updateExp: string,
   con?: string,
   ext?: GenericRecord
-): Promise<void> {
-  await updateRecordOnDynamo({
+): Promise<PrtExampleItem> {
+  const updatedResponse = await updateRecordOnDynamo({
     tableName: TABLE_NAME,
     key: { id },
     updateExpression: updateExp,
     conditionExpression: con,
     extraExpAttributeValues: ext,
-    returnValues: 'NONE',
+    returnValues: 'ALL_NEW',
   });
+  return updatedResponse.Attributes ? (updatedResponse.Attributes as PrtExampleItem) : ({} as PrtExampleItem);
 }
 
 export {

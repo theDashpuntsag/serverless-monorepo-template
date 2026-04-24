@@ -3,7 +3,7 @@ import {
   getExampleItemById as getExampleItemByIdService,
   getExampleItemsByQuery as getExampleItemsByQueryService,
   getExampleItemTableDesc as getExampleTableDescription,
-  updateExampleItem,
+  updateExampleItemDirectly,
 } from '@/services/example';
 import { exampleItemSch } from '@/types';
 import { createHttpHandler, CustomError, extractMetadataFromEvent } from '@custom-repo/libs';
@@ -64,5 +64,5 @@ export const putUpdateExampleItem = createHttpHandler<object>(async (event) => {
   const { body } = extractMetadataFromEvent(event);
   if (!body) throw new CustomError('Request body is missing');
   const parsedBody = exampleItemSch.parse(body);
-  return await updateExampleItem(parsedBody);
+  return await updateExampleItemDirectly(parsedBody);
 });
