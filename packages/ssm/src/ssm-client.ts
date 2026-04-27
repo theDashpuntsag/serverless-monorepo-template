@@ -13,7 +13,7 @@ const client = new SSMClient({ region: process.env.AWS_REGION || 'ap-southeast-1
  *
  * @throws {Error} Throws an error if the parameter cannot be retrieved.
  */
-async function getParameterStoreVal(paramName: string, isDecrypt: boolean = false): Promise<string | undefined> {
+export async function getParameterStoreVal(paramName: string, isDecrypt: boolean = false): Promise<string | undefined> {
   try {
     const response = await client.send(
       new GetParameterCommand({
@@ -23,8 +23,8 @@ async function getParameterStoreVal(paramName: string, isDecrypt: boolean = fals
     );
     return response.Parameter?.Value;
   } catch (error: unknown) {
-    console.error(`Error retrieving parameter: ${error}`);
-    throw new Error(`Failed to retrieve parameter: ${paramName}`);
+    console.error(`Error retrieving parameter:`, error);
+    throw error;
   }
 }
 
@@ -39,7 +39,7 @@ async function getParameterStoreVal(paramName: string, isDecrypt: boolean = fals
  *
  * @throws {Error} Throws an error if the parameter cannot be updated.
  */
-async function updateParameterStoreVal(
+export async function updateParameterStoreVal(
   paramName: string,
   paramValue: string,
   paramType: ParameterType = 'String',
@@ -55,9 +55,39 @@ async function updateParameterStoreVal(
       })
     );
   } catch (error: unknown) {
-    console.error(`Error updating parameter: ${error}`);
-    throw new Error(`Failed to update parameter: ${paramName}`);
+    console.error(`Error updating parameter:`, error);
+    throw error;
   }
 }
 
-export { getParameterStoreVal, updateParameterStoreVal };
+/**
+ * Updates a parameter in AWS SSM Parameter Store with retry logic for handling transient errors.
+ * @param name - The name of the parameter to update.
+ * @param value - The value to set for the parameter.
+ * @param maxAttempts - The maximum number of retry attempts (default is 5).
+ * @returns A promise that resolves when the parameter is successfully updated or rejects after exhausting retries.
+ */
+export async function updateParameterStoreValWithRetry(name: string, value: string, maxAttempts = 5): Promise<void> {
+  for (let attempt = 1; attempt <= maxAttempts; attempt++) {
+    try {
+      await updateParameterStoreVal(name, value);
+      return;
+    } catch (error: any) {
+      const isRetryable =
+        error?.name === 'TooManyUpdates' ||
+        error?.name === 'ThrottlingException' ||
+        error?.$metadata?.httpStatusCode === 429 ||
+        error?.$retryable;
+
+      if (!isRetryable || attempt === maxAttempts) {
+        throw error;
+      }
+
+      const delayMs = Math.min(500 * 2 ** attempt, 8_000);
+      const jitterMs = Math.floor(Math.random() * 300);
+
+      console.warn(`Retrying SSM parameter update: ${name}. Attempt ${attempt}/${maxAttempts}`);
+      await new Promise((resolve) => setTimeout(resolve, delayMs + jitterMs));
+    }
+  }
+}
