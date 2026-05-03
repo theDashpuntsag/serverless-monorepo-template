@@ -128,7 +128,7 @@ export async function invokeLambdaFn<T>(fnName: string, payload: unknown, iType?
     // Fallback: plain JSON object
     return { statusCode: transportStatus, body: parsed as T };
   } catch (error: unknown) {
-    console.error(`Error occurred on invokeLambdaFunc ${fnName}  ${JSON.stringify(error)}`);
+    console.error(`Error occurred on invokeLambdaFunc: ${fnName}`, error);
     throw error;
   }
 }

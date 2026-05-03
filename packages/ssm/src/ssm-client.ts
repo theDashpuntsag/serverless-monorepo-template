@@ -2,6 +2,17 @@ import type { ParameterType } from '@aws-sdk/client-ssm';
 
 import { GetParameterCommand, PutParameterCommand, SSMClient } from '@aws-sdk/client-ssm';
 
+type RetryableErrorLike = {
+  $metadata?: {
+    httpStatusCode?: number;
+  };
+  $retryable?: unknown;
+};
+
+function isRetryableErrorLike(error: unknown): error is RetryableErrorLike {
+  return typeof error === 'object' && error !== null;
+}
+
 const client = new SSMClient({ region: process.env.AWS_REGION || 'ap-southeast-1' });
 
 /**
@@ -72,12 +83,15 @@ export async function updateParameterStoreValWithRetry(name: string, value: stri
     try {
       await updateParameterStoreVal(name, value);
       return;
-    } catch (error: any) {
+    } catch (error: unknown) {
+      const errorName = error instanceof Error ? error.name : undefined;
+      const errorDetails = isRetryableErrorLike(error) ? error : undefined;
+
       const isRetryable =
-        error?.name === 'TooManyUpdates' ||
-        error?.name === 'ThrottlingException' ||
-        error?.$metadata?.httpStatusCode === 429 ||
-        error?.$retryable;
+        errorName === 'TooManyUpdates' ||
+        errorName === 'ThrottlingException' ||
+        errorDetails?.$metadata?.httpStatusCode === 429 ||
+        Boolean(errorDetails?.$retryable);
 
       if (!isRetryable || attempt === maxAttempts) {
         throw error;
